@@ -1,26 +1,26 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#72A1E5' // Vista Blue
+      main: "#FFFFFA", // Vista Blue
     },
     secondary: {
-      main: '#372772', // Deep Purple
+      main: "#97B0D3", // Powder blue
     },
     error: {
-        main: '#FFCAB1' // Apricot
+      main: "#FF686B", // Light red
     },
     warning: {
-        main: '#ECDCB0' // Dutch white
+      main: "#ECDCB0", // Dutch white
     },
     info: {
-        main: '#9883E5' // Tropical Indigo
+      main: "#00171F", // Tropical Indigo
     },
     success: {
-        main: '#8CC084' // Pistachio
+      main: "#8CC084", // Pistachio
     },
-  }
+  },
   // Add more theme customization options as needed
 });
 
