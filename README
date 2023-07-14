@@ -1,6 +1,11 @@
+functional:
 use pagination
+use error useState var in main nav
+fix label focus color for search
+fix marginTop in RootLayout outlet separation
+
+styling:
 get colors right
+blockstart but the b is slanted like a block
 tesla style?
 berry style?
-use error useState var in main nav
-fix label focus for search

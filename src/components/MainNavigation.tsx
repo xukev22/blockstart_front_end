@@ -8,12 +8,19 @@ import {
   Box,
   Paper,
   TextField,
+  Drawer,
   Autocomplete,
   Stack,
+  Button,
   Grid,
   Divider,
   useMediaQuery,
+  Container,
+  IconButton,
+  Icon,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import Image from "mui-image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +28,7 @@ import "react-toastify/dist/ReactToastify.css";
 const MainNavigation = () => {
   const [collegeNames, setCollegeNames] = useState<string[]>([]);
   const [error, setError] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
   const theme = useTheme();
 
@@ -71,6 +79,23 @@ const MainNavigation = () => {
     }
   };
 
+  const clickHandlerSearch = () => {
+    const selectedCollegeName = collegeNameRef.current?.value;
+
+    const removeAmpersandSelectedCollegeName = selectedCollegeName?.replace(
+      "&",
+      "and"
+    );
+
+    if (isValid(selectedCollegeName)) {
+      navigate(`/colleges/${removeAmpersandSelectedCollegeName}`);
+    } else {
+      toast.error("Enter a valid college name! (see dropdown)", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+
   useEffect(() => {
     fetchCollegeNamesHandler();
   }, [fetchCollegeNamesHandler]);
@@ -89,11 +114,101 @@ const MainNavigation = () => {
     // Render the placeholder comment for small screen
     return (
       <>
-        {/* Placeholder for small screen navbar */}
-        {/* Add your small screen navbar content here */}
-        {/* Placeholder comment */}
-        {/* Add your small screen navbar content here */}
-        {/* Placeholder comment */}
+        {/* Smaller width navbar for small screens */}
+        <AppBar sx={{ background: primaryColor }}>
+          <Grid columns={12} container>
+            <Grid item xs={3}>
+              <Link to="/">
+                <Image
+                  src="/src/images/blockstart1_centered.png"
+                  duration={0}
+                  fit="fill"
+                />
+              </Link>
+            </Grid>
+            <Grid item xs={5}>
+              {/* Modify the size of the search bar */}
+              <Box sx={{ margin: "0.5rem" }}>
+                <Paper component="form" onSubmit={submitHandlerSearch}>
+                  <Autocomplete
+                    clearOnEscape
+                    disablePortal
+                    id="combo-box-demo"
+                    options={collegeNames}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="collegeName"
+                        label="Search for a College"
+                        variant="outlined"
+                        inputRef={collegeNameRef} // Assign the ref to the input field
+                      />
+                    )}
+                  />
+                </Paper>
+              </Box>
+            </Grid>
+            <Grid item xs={1}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "1rem",
+                }}
+              >
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ justifyContent: "center" }}
+                  onClick={clickHandlerSearch}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </Box>
+            </Grid>
+            <Grid item xs={3}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  margin: "1rem",
+                }}
+              >
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={() => setIsDrawerOpen(true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Box>
+            </Grid>
+          </Grid>
+        </AppBar>
+        <Drawer
+          anchor="right"
+          open={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        >
+          <Link to="/recruit">
+            <Tab
+              label="Recruit"
+              sx={{
+                color: isActiveTab("/recruit") ? "secondary.main" : "info.main",
+              }}
+            />
+          </Link>
+          <Link to="/contact">
+            <Tab
+              label="Contact"
+              sx={{
+                color: isActiveTab("/contact") ? "secondary.main" : "info.main",
+              }}
+            />
+          </Link>
+        </Drawer>
       </>
     );
   } else {
@@ -102,7 +217,7 @@ const MainNavigation = () => {
       <>
         {/* Original navbar for larger screens */}
         <AppBar sx={{ background: primaryColor }}>
-          <Grid container alignItems="center" columns={24}>
+          <Grid container alignItems="center" columns={24} spacing={2}>
             <Grid item xs={1}></Grid>
             <Grid item xs={2}>
               <Link to="/">
@@ -114,28 +229,37 @@ const MainNavigation = () => {
               </Link>
             </Grid>
             <Grid item xs={1}></Grid>
-            <Grid item xs={12}>
-              <Paper
-                elevation={1}
-                component="form"
-                onSubmit={submitHandlerSearch}
+            <Grid item xs={10}>
+              {/* Modify the size of the search bar */}
+              <Box sx={{ margin: "0.5rem" }}>
+                <Paper component="form" onSubmit={submitHandlerSearch}>
+                  <Autocomplete
+                    clearOnEscape
+                    disablePortal
+                    id="combo-box-demo"
+                    options={collegeNames}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="collegeName"
+                        label="Search for a College"
+                        variant="outlined"
+                        inputRef={collegeNameRef} // Assign the ref to the input field
+                      />
+                    )}
+                  />
+                </Paper>
+              </Box>
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={clickHandlerSearch}
               >
-                <Autocomplete
-                  clearOnEscape
-                  disablePortal
-                  id="combo-box-demo"
-                  options={collegeNames}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      name="collegeName"
-                      label="Search for a College"
-                      variant="filled"
-                      inputRef={collegeNameRef} // Assign the ref to the input field
-                    />
-                  )}
-                />
-              </Paper>
+                <SearchIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={4}></Grid>
             <Grid item xs={4}>
