@@ -10,7 +10,9 @@ import {
   TextField,
   Autocomplete,
   Stack,
+  Grid,
   Divider,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "mui-image";
 import { toast, ToastContainer } from "react-toastify";
@@ -74,71 +76,92 @@ const MainNavigation = () => {
     return location.pathname === path;
   };
 
-  return (
-    <>
-      <AppBar sx={{ background: primaryColor }} position="fixed">
-        <Toolbar>
-          <Link to="/">
-            <Image
-              src="/src/images/blockstart1_2.png"
-              duration={0}
-              fit="fill"
-              height="4rem"
-            />
-          </Link>
-          <Paper component="form" onSubmit={submitHandlerSearch} elevation={3}>
-            <Autocomplete
-              clearOnEscape
-              disablePortal
-              id="combo-box-demo"
-              options={collegeNames}
-              sx={{ width: "40rem" }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  name="collegeName"
-                  label="Search for a College"
-                  variant="outlined"
-                  inputRef={collegeNameRef} // Assign the ref to the input field
+  // Use useMediaQuery hook to determine the screen size
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // Conditional rendering of the navbar based on the screen size
+  if (isSmallScreen) {
+    // Render the placeholder comment for small screen
+    return (
+      <>
+        {/* Placeholder for small screen navbar */}
+        {/* Add your small screen navbar content here */}
+        {/* Placeholder comment */}
+        {/* Add your small screen navbar content here */}
+        {/* Placeholder comment */}
+      </>
+    );
+  } else {
+    // Render the original navbar for larger screens
+    return (
+      <>
+        {/* Original navbar for larger screens */}
+        <AppBar sx={{ background: primaryColor }}>
+          <Grid container alignItems="center" columns={24}>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={2}>
+              <Link to="/">
+                <Image
+                  src="/src/images/blockstart1_centered.png"
+                  duration={0}
+                  fit="fill"
+                  height="4rem"
                 />
-              )}
-            />
-          </Paper>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              overflowX: "auto",
-              gap: "10px",
-              marginLeft: "auto",
-            }}
-          >
-            <Link to="/recruit">
-              <Tab
-                label="Recruit"
-                sx={{
-                  color: isActiveTab("/recruit")
-                    ? "secondary.main"
-                    : "info.main",
-                }}
-              />
-            </Link>
-            <Link to="/contact">
-              <Tab
-                label="Contact"
-                sx={{
-                  color: isActiveTab("/contact")
-                    ? "secondary.main"
-                    : "info.main",
-                }}
-              />
-            </Link>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <ToastContainer />
-    </>
-  );
+              </Link>
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={12}>
+              <Paper
+                component="form"
+                onSubmit={submitHandlerSearch}
+                elevation={3}
+              >
+                <Autocomplete
+                  clearOnEscape
+                  disablePortal
+                  id="combo-box-demo"
+                  options={collegeNames}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      name="collegeName"
+                      label="Search for a College"
+                      variant="outlined"
+                      inputRef={collegeNameRef} // Assign the ref to the input field
+                    />
+                  )}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={4}></Grid>
+            <Grid item xs={4}>
+              <Link to="/recruit">
+                <Tab
+                  label="Recruit"
+                  sx={{
+                    color: isActiveTab("/recruit")
+                      ? "secondary.main"
+                      : "info.main",
+                  }}
+                />
+              </Link>
+              <Link to="/contact">
+                <Tab
+                  label="Contact"
+                  sx={{
+                    color: isActiveTab("/contact")
+                      ? "secondary.main"
+                      : "info.main",
+                  }}
+                />
+              </Link>
+            </Grid>
+          </Grid>
+        </AppBar>
+        <ToastContainer />
+      </>
+    );
+  }
 };
 
 export default MainNavigation;
