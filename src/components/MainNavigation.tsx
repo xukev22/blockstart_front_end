@@ -57,8 +57,13 @@ const MainNavigation = () => {
 
     const selectedCollegeName = collegeNameRef.current?.value;
 
+    const removeAmpersandSelectedCollegeName = selectedCollegeName?.replace(
+      "&",
+      "and"
+    );
+
     if (isValid(selectedCollegeName)) {
-      navigate(`/colleges/${selectedCollegeName}`);
+      navigate(`/colleges/${removeAmpersandSelectedCollegeName}`);
     } else {
       toast.error("Enter a valid college name! (see dropdown)", {
         position: toast.POSITION.BOTTOM_RIGHT,

@@ -2,4 +2,5 @@ use pagination
 get colors right
 tesla style?
 berry style?
-use error state in main nav
+use error useState var in main nav
+fix label focus for search
