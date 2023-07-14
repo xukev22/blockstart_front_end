@@ -1,13 +1,12 @@
 import MainNavigation from "../components/MainNavigation";
+import { Stack } from "@mui/material";
 
 const ErrorPage = () => {
   return (
-    <>
+    <Stack spacing={5}>
       <MainNavigation />
-      <div style={{ marginTop: "5rem" }}>
-        <h1>Something went wrong!</h1>
-      </div>
-    </>
+      <h1>Something went wrong!</h1>
+    </Stack>
   );
 };
 
