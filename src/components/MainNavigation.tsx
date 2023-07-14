@@ -102,19 +102,18 @@ const MainNavigation = () => {
             <Grid item xs={2}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstart1_centered.png"
+                  src="/src/images/blockstart1_cropped.png"
                   duration={0}
-                  fit="fill"
-                  height="4rem"
+                  fit="cover"
                 />
               </Link>
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={12}>
               <Paper
+                elevation={1}
                 component="form"
                 onSubmit={submitHandlerSearch}
-                elevation={3}
               >
                 <Autocomplete
                   clearOnEscape
@@ -126,7 +125,7 @@ const MainNavigation = () => {
                       {...params}
                       name="collegeName"
                       label="Search for a College"
-                      variant="outlined"
+                      variant="filled"
                       inputRef={collegeNameRef} // Assign the ref to the input field
                     />
                   )}
