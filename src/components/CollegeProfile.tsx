@@ -1,9 +1,11 @@
 import { useParams, useLoaderData, LoaderFunction } from "react-router-dom";
+import CollegeProfileData from "../model/CollegeProfileData";
 
 const CollegeProfile = () => {
   const params = useParams();
   const data = useLoaderData();
 
+  const dataCast: CollegeProfileData = data as CollegeProfileData;
   console.log(data);
   return (
     <>
