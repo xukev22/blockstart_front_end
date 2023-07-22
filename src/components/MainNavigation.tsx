@@ -120,7 +120,7 @@ const MainNavigation = () => {
             <Grid item xs={3}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstart1_centered.png"
+                  src="/src/images/blockstart_logo_mobile.png"
                   duration={0}
                   fit="fill"
                 />
@@ -222,7 +222,7 @@ const MainNavigation = () => {
             <Grid item xs={2}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstart1_cropped.png"
+                  src="/src/images/blockstart_logo.png"
                   duration={0}
                   fit="cover"
                 />
@@ -261,28 +261,29 @@ const MainNavigation = () => {
                 <SearchIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Link to="/recruit">
-                <Tab
-                  label="Recruit"
-                  sx={{
-                    color: isActiveTab("/recruit")
-                      ? "secondary.main"
-                      : "info.main",
-                  }}
-                />
-              </Link>
-              <Link to="/contact">
-                <Tab
-                  label="Contact"
-                  sx={{
-                    color: isActiveTab("/contact")
-                      ? "secondary.main"
-                      : "info.main",
-                  }}
-                />
-              </Link>
+            <Grid item xs={8}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Link to="/recruit">
+                  <Tab
+                    label="Recruit"
+                    sx={{
+                      color: isActiveTab("/recruit")
+                        ? "secondary.main"
+                        : "info.main",
+                    }}
+                  />
+                </Link>
+                <Link to="/contact">
+                  <Tab
+                    label="Contact"
+                    sx={{
+                      color: isActiveTab("/contact")
+                        ? "secondary.main"
+                        : "info.main",
+                    }}
+                  />
+                </Link>
+              </Box>
             </Grid>
           </Grid>
         </AppBar>

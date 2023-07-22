@@ -1,8 +1,16 @@
+TODO;
+
 functional:
+"auto" for sx in mainnav grid spacing
 use pagination
-use error useState var in main nav
+use error useState var in main nav, make more dynamic error page
 fix label focus color for search
-fix marginTop in RootLayout outlet separation
+fix stack (hacky) in RootLayout outlet separation
+"looking for a specific school? use search (write this in recruit finder)"
+
+code organization:
+fix imports all files
+document all files
 
 styling:
 get colors right

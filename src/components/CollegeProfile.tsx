@@ -23,8 +23,11 @@ const CollegeProfile = () => {
   //for tabs
   const [selectedTab, setSelectedTab] = useState("one");
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
+  const handleTabChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any
+  ) => {
+    setSelectedTab(value);
   };
   console.log(selectedTab);
 
