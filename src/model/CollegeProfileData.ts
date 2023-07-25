@@ -16,7 +16,7 @@ enum HBCUState {
   DEFAULT = "DEFAULT",
 }
 
-enum EventType {
+export enum EventType {
   MALE_TRACK_55 = "MALE_TRACK_55",
   MALE_TRACK_60 = "MALE_TRACK_60",
   MALE_TRACK_100 = "MALE_TRACK_100",
@@ -102,7 +102,7 @@ enum EventType {
   UNHANDLED = "UNHANDLED",
 }
 
-interface Mark {
+export interface Mark {
   type: string;
   minute?: number;
   second?: number;
@@ -122,7 +122,7 @@ interface Essentials {
   hbcuOrNot: string;
 }
 
-interface StandardsSet {
+export interface StandardsSet {
   maleWalkOn: {
     existingEventsMapAndTheirTargetStandard: Partial<
       Record<EventType, Mark>
