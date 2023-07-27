@@ -1,99 +1,68 @@
-import {
-  Accordion,
-  Box,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  Grid,
-  Button,
-  Stack,
-  Divider,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Import the ExpandMoreIcon
+import { Box, Grid, Stack, Divider } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const fetchHardCoded = async () => {
-  const filterDTO = {
-    gender: "MALE",
-    userInput: {
-      MALE_TRACK_100: "10.85",
-      MALE_FIELD_POLE_VAULT: "3.25m",
-      MALE_FIELD_HIGH_JUMP: "1.95m",
-    },
-  };
+import Criteria from "../components/Criteria";
+import Marks from "../components/Marks";
+import SearchResults from "../components/SearchResults";
 
-  try {
-    const response = await fetch(
-      "http://localhost:8080/colleges/getMatchingColleges",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(filterDTO),
-      }
-    );
+// const fetchHardCoded = async () => {
+//   const filterDTO = {
+//     gender: "MALE",
+//     userInput: {
+//       MALE_TRACK_100: "10.85",
+//       MALE_FIELD_POLE_VAULT: "3.25m",
+//       MALE_FIELD_HIGH_JUMP: "1.95m",
+//     },
+//   };
 
-    if (!response.ok) {
-      throw new Error("Request failed");
-    }
+//   try {
+//     const response = await fetch(
+//       "http://localhost:8080/colleges/getMatchingColleges",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(filterDTO),
+//       }
+//     );
 
-    const data = await response.json();
+//     if (!response.ok) {
+//       throw new Error("Request failed");
+//     }
 
-    // Handle the response data
-    console.log(data);
-  } catch (error) {
-    // Handle any errors
-    console.error(error);
-  }
-};
+//     const data = await response.json();
+
+//     // Handle the response data
+//     console.log(data);
+//   } catch (error) {
+//     // Handle any errors
+//     console.error(error);
+//   }
+// };
 
 const RecruitPage = () => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={8}>
-        <Stack
-          direction="column"
-          divider={<Divider orientation="horizontal" flexItem />}
-          spacing={2}
-        >
-          <Button onClick={fetchHardCoded} variant="contained">
-            Fetch hard coded data
-          </Button>
-          <Button>hello</Button>
-        </Stack>
+    <Box>
+      <Grid container>
+        <Grid item xs={12} sm={12} md={7}>
+          <Stack
+            direction="column"
+            divider={<Divider orientation="horizontal" flexItem />}
+            spacing={2}
+          >
+            <Criteria />
+            <SearchResults />
+          </Stack>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={5}>
+          <Marks />
+        </Grid>
       </Grid>
-
-      <Grid item xs={4}>
-        <Stack direction="column">
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Accordion Section 1</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Content of Accordion Section 1</Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Accordion Section 2</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Content of Accordion Section 2</Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Accordion Section 3</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Content of Accordion Section 3</Typography>
-            </AccordionDetails>
-          </Accordion>
-        </Stack>
-      </Grid>
-    </Grid>
+      <ToastContainer />
+    </Box>
   );
 };
 

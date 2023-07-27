@@ -15,7 +15,7 @@ const theme = createTheme({
       main: "#ECDCB0", // Dutch white
     },
     info: {
-      main: "#00171F", // Tropical Indigo
+      main: "#5D5D81", // Tropical Indigo
     },
     success: {
       main: "#8CC084", // Pistachio
