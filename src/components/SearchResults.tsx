@@ -1,7 +1,8 @@
 import { Typography } from "@mui/material";
+import ReturnedSchools from "./ReturnedSchoolsTable";
 
 const SearchResults = () => {
-  return <Typography>hello</Typography>;
+  return <ReturnedSchools />;
 };
 
 export default SearchResults;

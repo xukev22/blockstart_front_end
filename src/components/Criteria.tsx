@@ -14,19 +14,32 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useState, useCallback, useEffect } from "react";
+import { UserInput } from "../pages/RecruitPage";
+import SearchBothButton from "../ui/SearchBothButton";
+import { CRITERIA_INVALID } from "../constants/recruit-page-error-messages";
 
-const Criteria = () => {
+interface Props {
+  criteriaIsValid: () => boolean;
+  marksIsValid: () => boolean;
+  changeDivision: (division: string) => void;
+  changeConference: (conference: string) => void;
+  changeState: (state: string) => void;
+  changePublicPrivate: (publicPrivate: string) => void;
+  changeHbcuOrNot: (hbcuOrNot: string) => void;
+  activeDivision: string;
+  publicPrivate: string;
+  hbcuOrNot: string;
+  activeConference: string;
+  activeState: string;
+  siblingInfo: { activeGender: string; userInput: UserInput };
+}
+
+const Criteria = (props: Props) => {
   const theme = useTheme();
 
   const [collegeConferences, setCollegeConferences] = useState<string[]>([]);
   const [collegeStates, setCollegeStates] = useState<string[]>([]);
   const [error, setError] = useState(false);
-
-  const [activeDivision, setActiveDivision] = useState("");
-  const [publicPrivate, setPublicPrivate] = useState("");
-  const [hbcuOrNot, setHbcuOrNot] = useState("");
-  const [activeConference, setActiveConference] = useState("");
-  const [activeState, setActiveState] = useState("");
 
   const blue = theme.palette.secondary.main;
 
@@ -69,34 +82,16 @@ const Criteria = () => {
     fetchCollegeStatesHandler();
   }, [fetchCollegeConferencesHandler, fetchCollegeStatesHandler]);
 
-  const criteriaIsValid = () => {
-    return !(
-      activeDivision === "" &&
-      activeConference === "" &&
-      activeState === "" &&
-      publicPrivate === "" &&
-      hbcuOrNot === ""
-    );
-  };
-
   const clickHandlerCriteriaSearch = () => {
-    if (criteriaIsValid()) {
+    if (props.criteriaIsValid()) {
       toast.success("data is valid", { position: toast.POSITION.BOTTOM_RIGHT });
     } else {
-      toast.error("data is not valid", {
+      toast.error(CRITERIA_INVALID, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
 
-  const clickHandlerBothSearch = () => {
-    toast.warning(
-      "[HOVER ON ME] DISCLAIMER: This service is still in beta and thus we do not do conversions automatically yet! You must convert to your best guess of the college equivalent. This applies to many events, like hurdles (which are lower in high school vs. college), throwing events (weight), etc.",
-      {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      }
-    );
-  };
   {
     /* <Button onClick={fetchHardCoded} variant="contained">
         Fetch hard coded data
@@ -130,36 +125,36 @@ const Criteria = () => {
           <Grid item xs={12}>
             <ButtonGroup variant="outlined">
               <Button
-                color={activeDivision === "I" ? "secondary" : "inherit"}
+                color={props.activeDivision === "I" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (activeDivision === "I") {
-                    setActiveDivision("");
+                  if (props.activeDivision === "I") {
+                    props.changeDivision("");
                   } else {
-                    setActiveDivision("I");
+                    props.changeDivision("I");
                   }
                 }}
               >
                 Division I
               </Button>
               <Button
-                color={activeDivision === "II" ? "secondary" : "inherit"}
+                color={props.activeDivision === "II" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (activeDivision === "II") {
-                    setActiveDivision("");
+                  if (props.activeDivision === "II") {
+                    props.changeDivision("");
                   } else {
-                    setActiveDivision("II");
+                    props.changeDivision("II");
                   }
                 }}
               >
                 Division II
               </Button>
               <Button
-                color={activeDivision === "III" ? "secondary" : "inherit"}
+                color={props.activeDivision === "III" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (activeDivision === "III") {
-                    setActiveDivision("");
+                  if (props.activeDivision === "III") {
+                    props.changeDivision("");
                   } else {
-                    setActiveDivision("III");
+                    props.changeDivision("III");
                   }
                 }}
               >
@@ -171,9 +166,9 @@ const Criteria = () => {
             <Autocomplete
               onChange={(evt, value) => {
                 if (value) {
-                  setActiveConference(value);
+                  props.changeConference(value);
                 } else {
-                  setActiveConference("");
+                  props.changeConference("");
                 }
               }}
               clearOnEscape
@@ -193,9 +188,9 @@ const Criteria = () => {
             <Autocomplete
               onChange={(evt, value) => {
                 if (value) {
-                  setActiveState(value);
+                  props.changeState(value);
                 } else {
-                  setActiveState("");
+                  props.changeState("");
                 }
               }}
               clearOnEscape
@@ -214,24 +209,28 @@ const Criteria = () => {
           <Grid item xs>
             <ButtonGroup variant="outlined">
               <Button
-                color={publicPrivate === "Public" ? "secondary" : "inherit"}
+                color={
+                  props.publicPrivate === "Public" ? "secondary" : "inherit"
+                }
                 onClick={() => {
-                  if (publicPrivate === "Public") {
-                    setPublicPrivate("");
+                  if (props.publicPrivate === "Public") {
+                    props.changePublicPrivate("");
                   } else {
-                    setPublicPrivate("Public");
+                    props.changePublicPrivate("Public");
                   }
                 }}
               >
                 Public
               </Button>
               <Button
-                color={publicPrivate === "Private" ? "secondary" : "inherit"}
+                color={
+                  props.publicPrivate === "Private" ? "secondary" : "inherit"
+                }
                 onClick={() => {
-                  if (publicPrivate === "Private") {
-                    setPublicPrivate("");
+                  if (props.publicPrivate === "Private") {
+                    props.changePublicPrivate("");
                   } else {
-                    setPublicPrivate("Private");
+                    props.changePublicPrivate("Private");
                   }
                 }}
               >
@@ -242,24 +241,24 @@ const Criteria = () => {
           <Grid item xs>
             <ButtonGroup variant="outlined">
               <Button
-                color={hbcuOrNot === "Yes" ? "secondary" : "inherit"}
+                color={props.hbcuOrNot === "Yes" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (hbcuOrNot === "Yes") {
-                    setHbcuOrNot("");
+                  if (props.hbcuOrNot === "Yes") {
+                    props.changeHbcuOrNot("");
                   } else {
-                    setHbcuOrNot("Yes");
+                    props.changeHbcuOrNot("Yes");
                   }
                 }}
               >
                 HBCU
               </Button>
               <Button
-                color={hbcuOrNot === "No" ? "secondary" : "inherit"}
+                color={props.hbcuOrNot === "No" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (hbcuOrNot === "No") {
-                    setHbcuOrNot("");
+                  if (props.hbcuOrNot === "No") {
+                    props.changeHbcuOrNot("");
                   } else {
-                    setHbcuOrNot("No");
+                    props.changeHbcuOrNot("No");
                   }
                 }}
               >
@@ -291,13 +290,17 @@ const Criteria = () => {
         <Button variant="contained" color="error">
           Clear Criteria
         </Button>
-        <Button
-          variant="contained"
-          color="info"
-          onClick={clickHandlerBothSearch}
-        >
-          Search Both
-        </Button>
+        <SearchBothButton
+          criteriaIsValid={props.criteriaIsValid}
+          marksIsValid={props.marksIsValid}
+          activeGender={props.siblingInfo.activeGender}
+          userInput={props.siblingInfo.userInput}
+          activeConference={props.activeConference}
+          activeDivision={props.activeDivision}
+          activeState={props.activeState}
+          publicPrivate={props.publicPrivate}
+          hbcuOrNot={props.hbcuOrNot}
+        />
       </Box>
     </Box>
   );

@@ -20,8 +20,11 @@ berry style?
 https://mui-treasury.com/components/card/ SEE HIGHLIGHT
 https://mui-treasury.com/components/carousel/
 
+map for states abbreviations MA -> Massachusetts (MA)
+map for college common acronyms University of California, Los Angeles -> University of California, Los Angeles (UCLA)
+event names enum -> readable name
 
-
-
+DISCLAIMER:
+MANY EVENTS HAVE WEIRD VARIANTS FLUCTUATIONS IN STANDARDS
 At the end of the day, this is not a definitive service that knows more about a college's standards than the actual coaches recruiting.
 data accurate up to [year]

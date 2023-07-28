@@ -16,131 +16,46 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Import the Expan
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useState } from "react";
-
-const eventNamesTrackShort: string[] = [
-  "60m",
-  "60m Hurdles",
-  "100m",
-  "110/100m Hurdles",
-  "200m",
-  "300m",
-  "400m",
-  "400m Hurdles",
-  "600m",
-];
-
-const eventNamesTrackLong: string[] = [
-  "800m",
-  "1000m",
-  "1500m",
-  "1600m",
-  "3000m",
-  "3000m SC",
-  "3200m",
-  "5000m",
-  "10000m",
-];
-
-const eventNamesField: string[] = [
-  "Long Jump",
-  "Triple Jump",
-  "High Jump",
-  "Pole Vault",
-  "Shot Put",
-  "Discus",
-  "Javelin",
-  "Hammer",
-  "Weight Throw",
-  "Pentathalon",
-  "Heptathalon",
-  "Decathalon",
-];
-
-const eventNamesXC: string[] = [
-  "5k XC",
-  "6k XC",
-  "8k XC",
-  "10k XC",
-  "4 Mile XC",
-  "7600m XC",
-  "9500m XC",
-];
-
 const isMulti = (eventName: string) => {
   return ["Pentathalon", "Heptathalon", "Decathalon"].includes(eventName);
 };
 
-const Marks = () => {
-  const [activeGender, setActiveGender] = useState("");
+import { UserInput } from "../pages/RecruitPage";
+interface Props {
+  criteriaIsValid: () => boolean;
+  marksIsValid: () => boolean;
+  changeGender: (gender: string) => void;
+  activeGender: string;
+  userInput: UserInput;
+  changeUserInput: (eventName: string, value: string) => void;
+  eventNamesTrackShort: string[];
+  eventNamesTrackLong: string[];
+  eventNamesField: string[];
+  eventNamesXC: string[];
+  siblingInfo: {
+    activeDivision: string;
+    activeConference: string;
+    activeState: string;
+    publicPrivate: string;
+    hbcuOrNot: string;
+  };
+}
 
+import { useState } from "react";
+import SearchBothButton from "../ui/SearchBothButton";
+import { MARKS_INVALID } from "../constants/recruit-page-error-messages";
+
+const Marks = (props: Props) => {
   const theme = useTheme();
 
-  const marksIsValid = () => {
-    if (activeGender === "") {
-      return false;
-    }
-
-    // Validation function for individual text fields
-    // Regular expressions for time and non-time formats
-    const timeFormatRegex = /^([0-5]?\d:)?[0-5]?\d\.\d{1,2}$/;
-    const nonTimeFormatRegex = /^\d+(?:\.\d{1,2})?(?:\s*m|pts|points)?$/i;
-
-    // Function to validate individual mark
-    const isMarkValid = (eventName: string, value: string): boolean => {
-      if (
-        eventNamesTrackShort.includes(eventName) ||
-        eventNamesTrackLong.includes(eventName) ||
-        eventNamesXC.includes(eventName)
-      ) {
-        return timeFormatRegex.test(value);
-      } else {
-        return nonTimeFormatRegex.test(value);
-      }
-    };
-
-    // Check if at least one field has a valid mark
-    const allEventNames = [
-      ...eventNamesTrackShort,
-      ...eventNamesTrackLong,
-      ...eventNamesField,
-      ...eventNamesXC,
-    ];
-
-    for (const eventName of allEventNames) {
-      const textFieldValue =
-        (
-          document.getElementById(
-            eventName.replace(/\s+/g, "_")
-          ) as HTMLInputElement
-        )?.value || "";
-      if (textFieldValue.trim() === "") {
-        continue;
-      }
-      if (!isMarkValid(eventName, textFieldValue)) {
-        return false; // Found at least one valid mark
-      }
-    }
-
-    return true; // No valid marks found
-  };
-
   const clickHandlerMarksSearch = () => {
-    if (marksIsValid()) {
-      toast.success("data is valid", { position: toast.POSITION.BOTTOM_RIGHT });
+    if (props.marksIsValid()) {
+      toast.success("data is valid", { position: toast.POSITION.BOTTOM_LEFT });
     } else {
-      toast.error("data is not valid", {
-        position: toast.POSITION.BOTTOM_RIGHT,
+      toast.error(MARKS_INVALID, {
+        position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-  };
-  const clickHandlerBothSearch = () => {
-    toast.warning(
-      "[HOVER ON ME] DISCLAIMER: This service is still in beta and thus we do not do conversions automatically yet! You must convert to your best guess of the college equivalent. This applies to many events, like hurdles (which are lower in high school vs. college), throwing events (weight), etc.",
-      {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      }
-    );
   };
 
   return (
@@ -158,6 +73,11 @@ const Marks = () => {
         }}
       >
         Filter By Your Marks
+        {Object.entries(props.userInput).map(([eventName, value]) => (
+          <p key={eventName}>
+            Event: {eventName}, Value: {value}
+          </p>
+        ))}
       </Typography>
       <Stack direction="column">
         <Box
@@ -169,17 +89,17 @@ const Marks = () => {
         >
           <ButtonGroup variant="outlined">
             <Button
-              color={activeGender === "Male" ? "secondary" : "inherit"}
+              color={props.activeGender === "Male" ? "secondary" : "inherit"}
               onClick={() => {
-                setActiveGender("Male");
+                props.changeGender("Male");
               }}
             >
               Male
             </Button>
             <Button
-              color={activeGender === "Female" ? "secondary" : "inherit"}
+              color={props.activeGender === "Female" ? "secondary" : "inherit"}
               onClick={() => {
-                setActiveGender("Female");
+                props.changeGender("Female");
               }}
             >
               Female
@@ -211,7 +131,7 @@ const Marks = () => {
                   </Box>
                 </Grid>
 
-                {eventNamesTrackShort.map((eventName) => (
+                {props.eventNamesTrackShort.map((eventName) => (
                   <Grid key={eventName} item xs={6}>
                     <Box sx={{ textAlign: "center" }}>
                       <TextField
@@ -224,6 +144,9 @@ const Marks = () => {
                             <InputAdornment position="end">s</InputAdornment>
                           ),
                         }}
+                        onChange={(evt) =>
+                          props.changeUserInput(eventName, evt.target.value)
+                        }
                       />
                     </Box>
                   </Grid>
@@ -254,7 +177,7 @@ const Marks = () => {
                     />
                   </Box>
                 </Grid>
-                {eventNamesTrackLong.map((eventName) => (
+                {props.eventNamesTrackLong.map((eventName) => (
                   <Grid key={eventName} item xs={6}>
                     <Box sx={{ textAlign: "center" }}>
                       <TextField
@@ -267,6 +190,9 @@ const Marks = () => {
                             <InputAdornment position="end">s</InputAdornment>
                           ),
                         }}
+                        onChange={(evt) =>
+                          props.changeUserInput(eventName, evt.target.value)
+                        }
                       />
                     </Box>
                   </Grid>
@@ -313,7 +239,7 @@ const Marks = () => {
                     />
                   </Box>
                 </Grid>
-                {eventNamesField.map((eventName) => (
+                {props.eventNamesField.map((eventName) => (
                   <Grid key={eventName} item xs={6}>
                     <Box sx={{ textAlign: "center" }}>
                       <TextField
@@ -328,6 +254,9 @@ const Marks = () => {
                             </InputAdornment>
                           ),
                         }}
+                        onChange={(evt) =>
+                          props.changeUserInput(eventName, evt.target.value)
+                        }
                       />
                     </Box>
                   </Grid>
@@ -358,7 +287,7 @@ const Marks = () => {
                     />
                   </Box>
                 </Grid>
-                {eventNamesXC.map((eventName) => (
+                {props.eventNamesXC.map((eventName) => (
                   <Grid key={eventName} item xs={6}>
                     <Box sx={{ textAlign: "center" }}>
                       <TextField
@@ -371,6 +300,9 @@ const Marks = () => {
                             <InputAdornment position="end">s</InputAdornment>
                           ),
                         }}
+                        onChange={(evt) =>
+                          props.changeUserInput(eventName, evt.target.value)
+                        }
                       />
                     </Box>
                   </Grid>
@@ -401,13 +333,17 @@ const Marks = () => {
           <Button variant="contained" color="error">
             Clear Fields
           </Button>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={clickHandlerBothSearch}
-          >
-            Search Both
-          </Button>
+          <SearchBothButton
+            criteriaIsValid={props.criteriaIsValid}
+            marksIsValid={props.marksIsValid}
+            userInput={props.userInput}
+            activeGender={props.activeGender}
+            activeConference={props.siblingInfo.activeConference}
+            activeDivision={props.siblingInfo.activeDivision}
+            activeState={props.siblingInfo.activeState}
+            hbcuOrNot={props.siblingInfo.hbcuOrNot}
+            publicPrivate={props.siblingInfo.publicPrivate}
+          />
         </Box>
       </Stack>
     </Box>
