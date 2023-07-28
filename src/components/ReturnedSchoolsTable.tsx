@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, MouseEvent } from "react";
+import { useState, useMemo } from "react";
 import {
   Paper,
   Table,
@@ -15,13 +15,15 @@ import {
 } from "@mui/material";
 import {
   FirstPage as FirstPageIcon,
+  KeyboardArrowDown,
   KeyboardArrowLeft,
   KeyboardArrowRight,
+  KeyboardArrowUp,
   LastPage as LastPageIcon,
 } from "@mui/icons-material";
 
 interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
+  id: "name" | "code" | "population" | "size";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -36,64 +38,85 @@ const columns: readonly Column[] = [
     label: "Population",
     minWidth: 170,
     align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
     label: "Size\u00a0(km\u00b2)",
     minWidth: 170,
     align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
   },
 ];
 
 interface Data {
   name: string;
   code: string;
-  population: number;
-  size: number;
-  density: number;
+  population: string;
+  size: string;
 }
 
 function createData(
   name: string,
   code: string,
-  population: number,
-  size: number
+  population: string,
+  size: string
 ): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
+  return { name, code, population, size };
 }
 
 const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+  createData("India", "IN", "1324171354", "3287263"),
+  createData("China", "CN", "1403500365", "9596961"),
+  createData("Italy", "IT", "60483973", "301340"),
+  createData("United States", "US", "327167434", "9833520"),
+  createData("Canada", "CA", "37602103", "9984670"),
+  createData("Australia", "AU", "25475400", "7692024"),
+  createData("Germany", "DE", "83019200", "357578"),
+  createData("Ireland", "IE", "4857000", "70273"),
+  createData("Mexico", "MX", "126577691", "1972550"),
+  createData("Japan", "JP", "126317000", "377973"),
+  createData("France", "FR", "67022000", "640679"),
+  createData("United Kingdom", "GB", "67545757", "242495"),
+  createData("Russia", "RU", "146793744", "17098246"),
+  createData("Nigeria", "NG", "200962417", "923768"),
+  createData("Brazil", "BR", "210147125", "8515767"),
 ];
 
 export default function ReturnedSchoolsTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // Inside the ReturnedSchoolsTable component
+  const [sortColumn, setSortColumn] = useState<keyof Data>("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+  const handleSort = (columnId: keyof Data) => {
+    if (sortColumn === columnId) {
+      // Toggle sort direction if the same column is clicked again
+      setSortDirection((prevSortDirection) =>
+        prevSortDirection === "asc" ? "desc" : "asc"
+      );
+    } else {
+      // Set the new column and reset sort direction to ascending
+      setSortColumn(columnId);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedRows = useMemo(() => {
+    const comparator = (a: Data, b: Data) => {
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+      }
+
+      // For string values, use localeCompare for alphabetical sorting
+      return sortDirection === "asc"
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
+    };
+
+    return [...rows].sort(comparator);
+  }, [rows, sortColumn, sortDirection]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -117,14 +140,31 @@ export default function ReturnedSchoolsTable() {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  onClick={() => handleSort(column.id)}
                 >
                   {column.label}
+                  {sortColumn === column.id && (
+                    <Box
+                      component="span"
+                      sx={{
+                        marginLeft: "0.5rem",
+                        fontSize: "0.8rem",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      {sortDirection === "asc" ? (
+                        <KeyboardArrowUp />
+                      ) : (
+                        <KeyboardArrowDown />
+                      )}
+                    </Box>
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {sortedRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -146,7 +186,7 @@ export default function ReturnedSchoolsTable() {
         </Table>
       </TableContainer>
       <PaginationActions
-        count={rows.length}
+        count={sortedRows.length}
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={handleChangePage}
