@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import {
   Paper,
   Table,
@@ -12,6 +13,7 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import {
@@ -22,7 +24,7 @@ import {
   KeyboardArrowUp,
   LastPage as LastPageIcon,
 } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
+import { Theme, styled } from "@mui/material/styles";
 import { Result } from "../pages/RecruitPage";
 
 interface Column {
@@ -32,23 +34,6 @@ interface Column {
   align?: "right";
   format?: (value: number) => string;
 }
-
-const columns: readonly Column[] = [
-  { id: "college", label: "College", minWidth: 170 },
-  { id: "tags", label: "Tags", minWidth: 100 },
-  {
-    id: "state",
-    label: "State",
-    minWidth: 170,
-    align: "right",
-  },
-  {
-    id: "division",
-    label: "Division",
-    minWidth: 170,
-    align: "right",
-  },
-];
 
 // interface Data {
 //   college: string;
@@ -89,6 +74,30 @@ interface Props {
 }
 
 export default function ReturnedSchoolsTable(props: Props) {
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const WIDTH_NON_TAG = isSmallScreen ? 85 : 170;
+  const WIDTH_TAG = isSmallScreen ? 50 : 100;
+
+  const columns: readonly Column[] = [
+    { id: "college", label: "College", minWidth: WIDTH_NON_TAG },
+    { id: "tags", label: "Tags", minWidth: WIDTH_TAG },
+    {
+      id: "state",
+      label: "State",
+      minWidth: WIDTH_NON_TAG,
+      align: "right",
+    },
+    {
+      id: "division",
+      label: "Division",
+      minWidth: WIDTH_NON_TAG,
+      align: "right",
+    },
+  ];
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortColumn, setSortColumn] = useState<keyof Result>("college");
@@ -206,13 +215,24 @@ export default function ReturnedSchoolsTable(props: Props) {
                     >
                       {columns.map((column) => {
                         const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
+                        // Check if the current cell is the "college" column
+                        if (column.id === "college") {
+                          // Wrap the college name in a Link component
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <Link to={`/colleges/${value}`}>{value}</Link>
+                            </TableCell>
+                          );
+                        } else {
+                          // For other columns, render normally
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          );
+                        }
                       })}
                     </StyledTableRow>
                   );
@@ -251,6 +271,8 @@ const PaginationActions: React.FC<PaginationActionsProps> = ({
   onPageChange,
   onRowsPerPageChange,
 }) => {
+  const totalPages = Math.ceil(count / rowsPerPage);
+
   const handleFirstPageButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -308,7 +330,7 @@ const PaginationActions: React.FC<PaginationActionsProps> = ({
         ))}
       </TextField>
       <Typography variant="body2" sx={{ marginRight: 2 }}>
-        Page: {page + 1}
+        Page: {page + 1} of {totalPages}
       </Typography>
       <IconButton
         onClick={handleFirstPageButtonClick}
