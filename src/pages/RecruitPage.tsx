@@ -8,6 +8,20 @@ import SearchResults from "../components/SearchResults";
 
 import { useState } from "react";
 
+export enum ResultStatus {
+  INITIAL = "INITIAL",
+  SUCCESS = "SUCCESS",
+  LOADING = "LOADING",
+  ERROR = "ERROR",
+}
+
+export interface Result {
+  college: string;
+  tags: string;
+  state: string;
+  division: string;
+}
+
 const eventNamesTrackShort: string[] = [
   "60m",
   "60m Hurdles",
@@ -65,7 +79,7 @@ type AllEventNames =
   | (typeof eventNamesXC)[number];
 
 export type UserInput = Partial<Record<AllEventNames, string>>;
-import { EventType } from "../model/CollegeProfileData"; //reminder
+import { EventType } from "../model/CollegeProfileData"; //reminder to maybe fix the need for this using event type reverse mapping
 
 // const fetchHardCoded = async () => {
 //   const filterDTO = {
@@ -114,6 +128,11 @@ const RecruitPage = () => {
   // const initialTestData: EventData = { abc: "lol" };
   const [userInput, setUserInput] = useState<UserInput>({});
 
+  const [resultStatus, setResultStatus] = useState<ResultStatus>(
+    ResultStatus.INITIAL
+  );
+  const [results, setResults] = useState<Result[]>([]);
+
   const criteriaIsValid = () => {
     return !(
       activeDivision === "" &&
@@ -155,6 +174,7 @@ const RecruitPage = () => {
       ...eventNamesXC,
     ];
 
+    let empty = true;
     for (const eventName of allEventNames) {
       const textFieldValue =
         (
@@ -165,12 +185,14 @@ const RecruitPage = () => {
       if (textFieldValue.trim() === "") {
         continue;
       }
+
+      empty = false;
       if (!isMarkValid(eventName, textFieldValue)) {
         return false; // Found at least one valid mark
       }
     }
 
-    return true; // No valid marks found
+    return !empty;
   };
 
   return (
@@ -183,7 +205,9 @@ const RecruitPage = () => {
             divider={<Divider orientation="horizontal" flexItem />}
             spacing={2}
           >
+            <SearchResults results={results} resultStatus={resultStatus} />
             <Criteria
+              eventNamesField={eventNamesField}
               criteriaIsValid={criteriaIsValid}
               marksIsValid={marksIsValid}
               changeDivision={(division: string) => setActiveDivision(division)}
@@ -200,9 +224,12 @@ const RecruitPage = () => {
               activeConference={activeConference}
               changeState={(state: string) => setActiveState(state)}
               activeState={activeState}
+              changeResults={(results: Result[]) => setResults(results)}
+              changeResultStatus={(status: ResultStatus) =>
+                setResultStatus(status)
+              }
               siblingInfo={{ activeGender, userInput }}
             />
-            <SearchResults />
           </Stack>
         </Grid>
 
@@ -215,7 +242,7 @@ const RecruitPage = () => {
             eventNamesField={eventNamesField}
             eventNamesXC={eventNamesXC}
             userInput={userInput}
-            changeUserInput={(eventName: string, value: string) =>
+            changeUserInput={(eventName: string, value: string) => {
               setUserInput((prevState) => {
                 if (value !== "") {
                   return {
@@ -227,10 +254,17 @@ const RecruitPage = () => {
                   delete newState[`${eventName}`];
                   return newState;
                 }
-              })
-            }
+              });
+              if (eventName === "RESET" && value === "RESET") {
+                setUserInput({});
+              }
+            }}
             activeGender={activeGender}
             changeGender={(gender: string) => setActiveGender(gender)}
+            changeResults={(results: Result[]) => setResults(results)}
+            changeResultStatus={(status: ResultStatus) =>
+              setResultStatus(status)
+            }
             siblingInfo={{
               activeDivision,
               activeConference,

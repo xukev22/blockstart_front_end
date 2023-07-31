@@ -14,11 +14,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useState, useCallback, useEffect } from "react";
-import { UserInput } from "../pages/RecruitPage";
+import { ResultStatus, UserInput, Result } from "../pages/RecruitPage";
 import SearchBothButton from "../ui/SearchBothButton";
 import { CRITERIA_INVALID } from "../constants/recruit-page-error-messages";
+import { CollegeProfileDataWrapper } from "../model/CollegeProfileData";
+import { convertFullNameToAbbreviation, convertState } from "../utils/mappings";
+import { FilterDTO } from "./Marks";
 
 interface Props {
+  eventNamesField: string[];
   criteriaIsValid: () => boolean;
   marksIsValid: () => boolean;
   changeDivision: (division: string) => void;
@@ -31,8 +35,46 @@ interface Props {
   hbcuOrNot: string;
   activeConference: string;
   activeState: string;
+  changeResults: (results: Result[]) => void;
+  changeResultStatus: (status: ResultStatus) => void;
   siblingInfo: { activeGender: string; userInput: UserInput };
 }
+
+// const fetchHardCoded = async () => {
+//   const filterDTO = {
+//     gender: "MALE",
+//     userInput: {
+//       MALE_TRACK_100: "10.85",
+//       MALE_FIELD_POLE_VAULT: "3.25m",
+//       MALE_FIELD_HIGH_JUMP: "1.95m",
+//     },
+//   };
+
+//   try {
+//     const response = await fetch(
+//       "http://localhost:8080/colleges/getMatchingColleges",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(filterDTO),
+//       }
+//     );
+
+//     if (!response.ok) {
+//       throw new Error("Request failed");
+//     }
+
+//     const data = await response.json();
+
+//     // Handle the response data
+//     console.log(data);
+//   } catch (error) {
+//     // Handle any errors
+//     console.error(error);
+//   }
+// };
 
 const Criteria = (props: Props) => {
   const theme = useTheme();
@@ -42,6 +84,9 @@ const Criteria = (props: Props) => {
   const [error, setError] = useState(false);
 
   const blue = theme.palette.secondary.main;
+
+  const [conferenceKey, setConferenceKey] = useState(new Date().getTime());
+  const [stateKey, setStateKey] = useState(new Date().getTime() + 10000);
 
   const fetchCollegeConferencesHandler = useCallback(async () => {
     try {
@@ -70,7 +115,10 @@ const Criteria = (props: Props) => {
       }
 
       const data = await response.json();
-      setCollegeStates(data);
+      const convertedData = data.map((stateName: string) =>
+        convertState(stateName)
+      );
+      setCollegeStates(convertedData);
       setError(false);
     } catch (error) {
       setError(true);
@@ -82,14 +130,85 @@ const Criteria = (props: Props) => {
     fetchCollegeStatesHandler();
   }, [fetchCollegeConferencesHandler, fetchCollegeStatesHandler]);
 
-  const clickHandlerCriteriaSearch = () => {
+  const clickHandlerCriteriaSearch = async () => {
     if (props.criteriaIsValid()) {
       toast.success("data is valid", { position: toast.POSITION.BOTTOM_RIGHT });
+
+      props.changeResultStatus(ResultStatus.LOADING);
+
+      let filterDTO: FilterDTO = {};
+      if (props.activeDivision !== "") {
+        filterDTO = { ...filterDTO, division: props.activeDivision };
+      }
+      if (props.activeConference !== "") {
+        filterDTO = { ...filterDTO, conference: props.activeConference };
+      }
+      if (props.activeState !== "") {
+        filterDTO = {
+          ...filterDTO,
+          state: convertFullNameToAbbreviation(props.activeState),
+        };
+      }
+      if (props.publicPrivate !== "") {
+        filterDTO = { ...filterDTO, publicOrPrivate: props.publicPrivate };
+      }
+      if (props.hbcuOrNot !== "") {
+        filterDTO = { ...filterDTO, hbcuOrNot: props.hbcuOrNot };
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:8080/colleges/getMatchingColleges",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(filterDTO),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        const data = await response.json();
+        const cpData = data as CollegeProfileDataWrapper[];
+
+        // Handle the response data
+        console.log(cpData);
+
+        const results: Result[] = cpData.map((cp) => {
+          return {
+            college: cp.collegeProfile.essentials.name,
+            tags: "None",
+            state: cp.collegeProfile.essentials.state,
+            division: cp.collegeProfile.essentials.division,
+          };
+        });
+        props.changeResults(results);
+        props.changeResultStatus(ResultStatus.SUCCESS);
+      } catch (error) {
+        props.changeResultStatus(ResultStatus.ERROR);
+        // Handle any errors
+        console.error(error);
+      }
     } else {
       toast.error(CRITERIA_INVALID, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
+  };
+
+  const clearCriteriaFields = () => {
+    props.changeConference("");
+    props.changeDivision("");
+    props.changeHbcuOrNot("");
+    props.changePublicPrivate("");
+    props.changeState("");
+
+    setConferenceKey(new Date().getTime());
+    setStateKey(new Date().getTime() + 10000);
   };
 
   {
@@ -164,6 +283,7 @@ const Criteria = (props: Props) => {
           </Grid>
           <Grid item xs={6}>
             <Autocomplete
+              key={conferenceKey}
               onChange={(evt, value) => {
                 if (value) {
                   props.changeConference(value);
@@ -186,6 +306,7 @@ const Criteria = (props: Props) => {
           </Grid>
           <Grid item xs={6}>
             <Autocomplete
+              key={stateKey}
               onChange={(evt, value) => {
                 if (value) {
                   props.changeState(value);
@@ -210,13 +331,13 @@ const Criteria = (props: Props) => {
             <ButtonGroup variant="outlined">
               <Button
                 color={
-                  props.publicPrivate === "Public" ? "secondary" : "inherit"
+                  props.publicPrivate === "PUBLIC" ? "secondary" : "inherit"
                 }
                 onClick={() => {
-                  if (props.publicPrivate === "Public") {
+                  if (props.publicPrivate === "PUBLIC") {
                     props.changePublicPrivate("");
                   } else {
-                    props.changePublicPrivate("Public");
+                    props.changePublicPrivate("PUBLIC");
                   }
                 }}
               >
@@ -224,13 +345,13 @@ const Criteria = (props: Props) => {
               </Button>
               <Button
                 color={
-                  props.publicPrivate === "Private" ? "secondary" : "inherit"
+                  props.publicPrivate === "PRIVATE" ? "secondary" : "inherit"
                 }
                 onClick={() => {
-                  if (props.publicPrivate === "Private") {
+                  if (props.publicPrivate === "PRIVATE") {
                     props.changePublicPrivate("");
                   } else {
-                    props.changePublicPrivate("Private");
+                    props.changePublicPrivate("PRIVATE");
                   }
                 }}
               >
@@ -241,24 +362,24 @@ const Criteria = (props: Props) => {
           <Grid item xs>
             <ButtonGroup variant="outlined">
               <Button
-                color={props.hbcuOrNot === "Yes" ? "secondary" : "inherit"}
+                color={props.hbcuOrNot === "YES" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (props.hbcuOrNot === "Yes") {
+                  if (props.hbcuOrNot === "YES") {
                     props.changeHbcuOrNot("");
                   } else {
-                    props.changeHbcuOrNot("Yes");
+                    props.changeHbcuOrNot("YES");
                   }
                 }}
               >
                 HBCU
               </Button>
               <Button
-                color={props.hbcuOrNot === "No" ? "secondary" : "inherit"}
+                color={props.hbcuOrNot === "NO" ? "secondary" : "inherit"}
                 onClick={() => {
-                  if (props.hbcuOrNot === "No") {
+                  if (props.hbcuOrNot === "NO") {
                     props.changeHbcuOrNot("");
                   } else {
-                    props.changeHbcuOrNot("No");
+                    props.changeHbcuOrNot("NO");
                   }
                 }}
               >
@@ -287,10 +408,11 @@ const Criteria = (props: Props) => {
         >
           Search
         </Button>
-        <Button variant="contained" color="error">
+        <Button variant="contained" color="error" onClick={clearCriteriaFields}>
           Clear Criteria
         </Button>
         <SearchBothButton
+          eventNamesField={props.eventNamesField}
           criteriaIsValid={props.criteriaIsValid}
           marksIsValid={props.marksIsValid}
           activeGender={props.siblingInfo.activeGender}
@@ -300,6 +422,10 @@ const Criteria = (props: Props) => {
           activeState={props.activeState}
           publicPrivate={props.publicPrivate}
           hbcuOrNot={props.hbcuOrNot}
+          changeResults={(results: Result[]) => props.changeResults(results)}
+          changeResultStatus={(status: ResultStatus) =>
+            props.changeResultStatus(status)
+          }
         />
       </Box>
     </Box>

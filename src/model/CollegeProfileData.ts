@@ -168,4 +168,15 @@ interface CollegeProfileData {
   eb: EssentialsBonus | null;
 }
 
+export enum RecruitType {
+  HARD_RECRUIT = "HARD_RECRUIT",
+  SOFT_RECRUIT = "SOFT_RECRUIT",
+  WALK_ON = "WALK_ON",
+}
+
+export interface CollegeProfileDataWrapper {
+  collegeProfile: CollegeProfileData;
+  tags: Array<Partial<Record<EventType, RecruitType>>> | null;
+}
+
 export default CollegeProfileData;
