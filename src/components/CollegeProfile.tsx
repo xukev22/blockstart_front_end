@@ -1,217 +1,188 @@
 import { useParams, useLoaderData, LoaderFunction } from "react-router-dom";
-import { Box, Button, ButtonGroup, Grid, Paper } from "@mui/material";
-import { Tabs } from "@mui/material";
-import { Tab } from "@mui/material";
-import theme from "../theme/theme";
-import { makeStyles } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Grid,
+  Paper,
+  Tabs,
+  Tab,
+  makeStyles,
+  Link,
+  Typography,
+  Container,
+} from "@mui/material";
 import * as ReactIcons from "@mui/icons-material";
-import { Link } from "@mui/material";
-import Image from "mui-image";
 import { useState } from "react";
 import CollegeProfileData from "../model/CollegeProfileData";
-import { TabPanel } from "@mui/lab";
-import { TabContext } from "@mui/lab";
-import { TabList } from "@mui/lab";
-import { Container } from "@mui/material";
-import { Typography } from "@mui/material";
 import * as React from "react";
 import Standards from "./Standards";
+//import Image from "mui-image";
+import theme from "../theme/theme";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MoreInfo from "./MoreInfo";
 
 const CollegeProfile = () => {
   const params = useParams();
   const data = useLoaderData();
   const dataCast: CollegeProfileData = data as CollegeProfileData;
   console.log(dataCast);
-  //not all data will have standard set, some can be null
 
-  //for tabs
+  //College Profile Tabs HANDLER
   const [selectedTab, setSelectedTab] = useState("one");
-
   const handleTabChange = (
     event: React.SyntheticEvent<Element, Event>,
     newValue: any
   ) => {
     setSelectedTab(newValue);
   };
-  console.log(selectedTab);
 
-  //TABLE START
-  function createData(
-    name: string,
-    walkon: number,
-    soft: number,
-    hard: number
-  ) {
-    return { name, walkon, soft, hard };
-  }
-  const rows = [createData("100m", 0, 0, 0)]; //assign differently
-  const TabContainer1 = () => (
-    <Grid
-      container
-      paddingTop={"50px"}
-      paddingBottom={"25px"}
-      paddingLeft={"200px"}
-      paddingRight={"200px"}
-      sx={{
-        backgroundColor: theme.palette.primary.main,
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Event</TableCell>
-              <TableCell align="right">Walk-on</TableCell>
-              <TableCell align="right">Soft Recruit</TableCell>
-              <TableCell align="right">Hard Recruit</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">
-                  {
-                    dataCast.standardsSet?.maleWalkOn
-                      .existingEventsMapAndTheirTargetStandard?.MALE_TRACK_100
-                      ?.second
-                  }
-                  .
-                  {
-                    dataCast.standardsSet?.maleWalkOn
-                      .existingEventsMapAndTheirTargetStandard?.MALE_TRACK_100
-                      ?.fracSecond
-                  }
-                </TableCell>
-                <TableCell align="right">{row.soft}</TableCell>
-                <TableCell align="right">{row.hard}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Grid>
-  );
+  // select dropdown HANDLER
+  const [sport, setSport] = React.useState("Track");
+  //handles change from Track to XC
+  const handleChange = (event: SelectChangeEvent) => {
+    setSport(event.target.value);
+  };
 
-  //OLD render
-  const renderTabContent = () => {
-    switch (selectedTab) {
-      case "one":
-        return <TabContainer1 />;
-      default:
-        return <TabContainer1 />;
+  //switch between standards and more info component
+  const switchComponents = () => {
+    if (selectedTab == "one" || selectedTab == "two") {
+      return (
+        <div>
+          <Grid
+            container
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              paddingTop: "20px",
+            }}
+          >
+            <Grid item xs={9}></Grid>
+            <Grid item>
+              <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <InputLabel id="demo-select-small-label">Sport</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={sport}
+                  label="Sport"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"Track"}>Track & Field</MenuItem>
+                  <MenuItem value={"XC"}>Cross Country</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Standards
+            tabValue={selectedTab}
+            standardSet={dataCast.standardsSet}
+            sport={sport}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <MoreInfo
+            schoolEssentials={dataCast.essentials}
+            schoolEssentialsBonus={dataCast.eb}
+          ></MoreInfo>
+        </div>
+      );
     }
   };
-  console.log(renderTabContent);
-  console.log(dataCast.standardsSet);
-
+  const tabComponent = switchComponents();
   //RETURN COLLEGE PROFILE PAGE
   return (
     <div className="CollegeProfile">
-      <Box>
+      <Grid
+        container
+        paddingTop={"10px"}
+        paddingBottom={"25px"}
+        sx={{
+          backgroundColor: dataCast.eb?.hexColor,
+          width: "100%",
+        }}
+      >
+        <Grid item xs={1}></Grid>
+
         <Grid
-          container
-          paddingTop={"10px"}
-          paddingBottom={"25px"}
-          sx={{
-            backgroundColor: dataCast.eb?.hexColor,
-            width: "100%",
+          item
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "self-start",
           }}
+          xs={3}
         >
-          <Grid item xs={1}></Grid>
-
-          <Grid
-            item
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "self-start",
-            }}
-            xs={3}
-          >
-            <Typography color="white">
-              <h1 style={{ marginBottom: "5px" }}>
-                {dataCast.essentials.name}
-              </h1>
-              <span> State: {dataCast.essentials.state}</span>
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            xs={4}
-          >
-            <Typography color="white">
-              <h1 style={{ marginBottom: "5px" }}>
-                Division {dataCast.essentials.division}
-              </h1>
-            </Typography>
-            <Typography color="white">
-              <span>{dataCast.essentials.conference}</span>
-            </Typography>
-          </Grid>
-          <Grid item xs={1}></Grid>
-
-          <Grid
-            item
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "self-start",
-            }}
-            xs={3}
-          >
-            <Link href={`https://${dataCast.essentials.mainWebsiteURL}`}>
-              <Button
-                startIcon={<ReactIcons.Link></ReactIcons.Link>}
-                size="small"
-              >
-                {dataCast.essentials.mainWebsiteURL}
-              </Button>
-            </Link>
-            <Link href={`https://${dataCast.essentials.mainWebsiteURL}`}>
-              <Button
-                startIcon={<ReactIcons.Link></ReactIcons.Link>}
-                size="small"
-              >
-                {dataCast.essentials.athleticWebsiteURL}
-              </Button>
-            </Link>
-          </Grid>
+          <Typography color="white">
+            <h1 style={{ marginBottom: "5px" }}>{dataCast.essentials.name}</h1>
+            <span>
+              {dataCast.eb?.town}, {dataCast.essentials.state}
+            </span>
+          </Typography>
         </Grid>
-      </Box>
-      <Box
+        <Grid
+          item
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          xs={4}
+        >
+          <Typography color="white">
+            <h1 style={{ marginBottom: "5px" }}>
+              Division {dataCast.essentials.division}
+            </h1>
+          </Typography>
+          <Typography color="white">
+            <span>{dataCast.essentials.conference}</span>
+          </Typography>
+        </Grid>
+        <Grid item xs={1}></Grid>
+
+        <Grid
+          item
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "self-start",
+          }}
+          xs={3}
+        >
+          <Link href={`https://${dataCast.essentials.mainWebsiteURL}`}>
+            <Button
+              startIcon={<ReactIcons.Link></ReactIcons.Link>}
+              size="small"
+            >
+              {dataCast.essentials.mainWebsiteURL}
+            </Button>
+          </Link>
+          <Link href={`https://${dataCast.essentials.athleticWebsiteURL}`}>
+            <Button
+              startIcon={<ReactIcons.Link></ReactIcons.Link>}
+              size="small"
+            >
+              {dataCast.essentials.athleticWebsiteURL}
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <Grid
+        container
         display="flex"
         justifyContent={"center"}
         alignItems={"center"}
         flexDirection="column"
+        sx={{ backgroundColor: theme.palette.primary.main }}
       >
         <Tabs
           value={selectedTab}
@@ -224,9 +195,8 @@ const CollegeProfile = () => {
           <Tab value="two" label="Women Standards" />
           <Tab value="three" label="More Info" />
         </Tabs>
-      </Box>
-      {renderTabContent()}
-      <Standards tabValue={selectedTab} standardSet={dataCast.standardsSet} />
+      </Grid>
+      {tabComponent}
     </div>
   );
 };

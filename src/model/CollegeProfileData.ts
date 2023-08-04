@@ -111,7 +111,7 @@ export interface Mark {
   points?: number;
 }
 
-interface Essentials {
+export interface Essentials {
   name: string;
   division: string;
   conference: string;
@@ -155,7 +155,7 @@ export interface StandardsSet {
   };
 }
 
-interface EssentialsBonus {
+export interface EssentialsBonus {
   name: string;
   nickname: string;
   town: string;
