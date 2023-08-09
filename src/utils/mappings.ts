@@ -433,7 +433,9 @@ export function tagsToString(
     for (const eventType in tag) {
       if (tag.hasOwnProperty(eventType)) {
         const recruitType = tag[eventType as EventType];
-        tagStrings.push(`${eventType}: ${recruitType}`);
+        tagStrings.push(
+          `${eventToReadableName[eventType as EventType]}: ${recruitType}`
+        );
       }
     }
   }

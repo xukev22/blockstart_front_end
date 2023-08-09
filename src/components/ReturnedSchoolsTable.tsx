@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
+  Grid,
+  Chip,
   Paper,
   Table,
+  Button,
+  Modal,
   TableBody,
   TableCell,
   TableContainer,
@@ -26,6 +30,20 @@ import {
 } from "@mui/icons-material";
 import { Theme, styled } from "@mui/material/styles";
 import { Result } from "../pages/RecruitPage";
+import Legend from "./Legend";
+
+const style = {
+  alignItems: "cetner",
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 200,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 interface Column {
   id: "college" | "tags" | "state" | "division";
@@ -33,6 +51,24 @@ interface Column {
   minWidth?: number;
   align?: "right";
   format?: (value: number) => string;
+}
+function getChipColor(tag: string) {
+  const parts = tag.split(":");
+  if (parts.length === 2) {
+    const colorTag = parts[1].trim().toUpperCase();
+    switch (colorTag) {
+      case "WALK_ON":
+        return "#F4D06F"; // Yellow
+      case "SOFT_RECRUIT":
+        return "#3DDC97"; // Green
+      case "HARD_RECRUIT":
+        return "#623CEA"; // Blue
+      default:
+        return "#000000"; // Black (fallback color)
+    }
+  } else {
+    return "#000000"; // Black (fallback color)
+  }
 }
 
 // interface Data {
@@ -74,6 +110,10 @@ interface Props {
 }
 
 export default function ReturnedSchoolsTable(props: Props) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
@@ -223,6 +263,30 @@ export default function ReturnedSchoolsTable(props: Props) {
                               <Link to={`/colleges/${value}`}>{value}</Link>
                             </TableCell>
                           );
+                        } else if (column.id === "tags") {
+                          // For "Tags" column, render the Stack with Chip elements
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value === "None" ? (
+                                <Typography>None</Typography>
+                              ) : (
+                                <Grid container spacing={1}>
+                                  {value.split(",").map((tag) => (
+                                    <Grid item>
+                                      <Chip
+                                        key={tag}
+                                        label={tag.split(":")[0]}
+                                        style={{
+                                          backgroundColor: getChipColor(tag),
+                                          color: "#ffffff",
+                                        }}
+                                      />
+                                    </Grid>
+                                  ))}
+                                </Grid>
+                              )}
+                            </TableCell>
+                          );
                         } else {
                           // For other columns, render normally
                           return (
@@ -241,13 +305,35 @@ export default function ReturnedSchoolsTable(props: Props) {
           )}
         </Table>
       </TableContainer>
-      <PaginationActions
-        count={sortedRows.length}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Button color="secondary" onClick={handleOpen}>
+          Show Tags Legend
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Legend />
+          </Box>
+        </Modal>
+
+        {/* Add the PaginationActions component here */}
+        <PaginationActions
+          count={sortedRows.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
     </Paper>
   );
 }

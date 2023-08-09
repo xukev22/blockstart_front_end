@@ -6,10 +6,11 @@ import Criteria from "../components/Criteria";
 import Marks from "../components/Marks";
 import SearchResults from "../components/SearchResults";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+
+import { CollegeProfileDataWrapper } from "../model/CollegeProfileData";
 
 export enum ResultStatus {
-  INITIAL = "INITIAL",
   SUCCESS = "SUCCESS",
   LOADING = "LOADING",
   ERROR = "ERROR",
@@ -129,8 +130,43 @@ const RecruitPage = () => {
   const [userInput, setUserInput] = useState<UserInput>({});
 
   const [resultStatus, setResultStatus] = useState<ResultStatus>(
-    ResultStatus.INITIAL
+    ResultStatus.LOADING
   );
+  const fetchAllCollegesHandler = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/colleges/getAllColleges`
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+      const cpData = data as CollegeProfileDataWrapper[];
+
+      // Handle the response data
+      console.log(cpData);
+
+      const initResults: Result[] = cpData.map((cp) => {
+        return {
+          college: cp.collegeProfile.essentials.name,
+          tags: "None",
+          state: cp.collegeProfile.essentials.state,
+          division: cp.collegeProfile.essentials.division,
+        };
+      });
+
+      setResults(initResults);
+      setResultStatus(ResultStatus.SUCCESS);
+    } catch (error) {
+      setResultStatus(ResultStatus.ERROR);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAllCollegesHandler();
+  }, [fetchAllCollegesHandler]);
+
   const [results, setResults] = useState<Result[]>([]);
 
   const criteriaIsValid = () => {

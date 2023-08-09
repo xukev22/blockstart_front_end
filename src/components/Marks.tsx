@@ -45,7 +45,10 @@ interface Props {
 }
 
 import SearchBothButton from "../ui/SearchBothButton";
-import { MARKS_INVALID } from "../constants/recruit-page-error-messages";
+import {
+  DISCLAIMER,
+  MARKS_INVALID,
+} from "../constants/recruit-page-error-messages";
 import {
   Gender,
   tagsToString,
@@ -76,6 +79,10 @@ const Marks = (props: Props) => {
     if (props.marksIsValid()) {
       toast.success("data is valid", { position: toast.POSITION.BOTTOM_LEFT });
 
+      toast.warning(DISCLAIMER, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+
       props.changeResultStatus(ResultStatus.LOADING);
 
       let filterDTO: FilterDTO = { gender: props.activeGender, userInput: {} };
@@ -91,6 +98,8 @@ const Marks = (props: Props) => {
             convertedValue = value.replace("pts", "");
           } else if (value?.includes("points")) {
             convertedValue = value.replace("points", "");
+          } else if (isMulti(textFieldName)) {
+            convertedValue = value;
           } else {
             convertedValue = value + "m";
           }

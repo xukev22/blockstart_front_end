@@ -5,6 +5,7 @@ import { UserInput, Result, ResultStatus } from "../pages/RecruitPage";
 import {
   BOTH_INVALID,
   CRITERIA_INVALID,
+  DISCLAIMER,
   MARKS_INVALID,
 } from "../constants/recruit-page-error-messages";
 
@@ -31,14 +32,12 @@ interface Props {
 
 const SearchBothButton = (props: Props) => {
   const clickHandlerBothSearch = async () => {
-    toast.warning(
-      "[HOVER ON ME] DISCLAIMER: This service is still in beta and thus we do not do conversions automatically yet! You must convert to your best guess of the college equivalent. This applies to many events, like hurdles (which are lower in high school vs. college), throwing events (weight), etc.",
-      {
-        position: toast.POSITION.BOTTOM_LEFT,
-      }
-    );
     if (props.criteriaIsValid() && props.marksIsValid()) {
       toast.success("data for both are valid", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+
+      toast.warning(DISCLAIMER, {
         position: toast.POSITION.BOTTOM_LEFT,
       });
 
