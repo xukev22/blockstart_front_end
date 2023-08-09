@@ -1,10 +1,21 @@
-import { Typography, Grid, Box, Avatar, IconButton, Link } from "@mui/material";
+import {
+  Typography,
+  Grid,
+  Avatar,
+  IconButton,
+  Link,
+  useMediaQuery,
+} from "@mui/material";
 import theme from "../theme/theme";
 import EmailIcon from "@mui/icons-material/Email";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
+//import { useMediaQuery } from "react-responsive";
+
 const ContactPage = () => {
+  //const isSmallScreen = useMediaQuery({ maxWidth: 600 });
+  const isMedScreen = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <div>
       <Grid
@@ -15,19 +26,24 @@ const ContactPage = () => {
           backgroundColor: theme.palette.primary.main,
         }}
       >
-        <Grid item xs={1} lg={1}></Grid>
+        <Grid item xs={0} sm={1}></Grid>
+
         <Grid
           item
-          xs={10}
+          xs={12}
+          sm={10}
           sx={{
             boxShadow: 5,
             paddingTop: "100px",
             paddingBottom: "80px",
           }}
-          style={{ display: "flex" }}
+          style={{
+            display: "flex",
+            flexDirection: isMedScreen ? "column" : "row",
+          }}
         >
           <Grid container paddingBottom={10}>
-            <Grid item xs={2}></Grid>
+            <Grid item xs={3} sm={1}></Grid>
             <Grid item>
               <Avatar
                 alt="Kevin Xu"
@@ -36,7 +52,16 @@ const ContactPage = () => {
               />
             </Grid>
             <Grid item xs={1}></Grid>
-            <Grid item xs={5}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              sx={{
+                display: "grid",
+                justifyContent: "center", // Center content horizontally
+                alignItems: "center", // Center content vertically
+              }}
+            >
               <Typography color="black">
                 <h1 style={{ marginBottom: "3px" }}>Kevin Xu</h1>
               </Typography>
@@ -77,8 +102,8 @@ const ContactPage = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid item xs={1}></Grid>
+          <Grid container paddingBottom={10}>
+            <Grid item xs={3} sm={1}></Grid>
             <Grid item>
               <Avatar
                 alt="Joshua Kung"
@@ -87,7 +112,16 @@ const ContactPage = () => {
               />
             </Grid>
             <Grid item xs={1}></Grid>
-            <Grid item xs={5}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              sx={{
+                display: "grid",
+                justifyContent: "center", // Center content horizontally
+                alignItems: "center", // Center content vertically
+              }}
+            >
               <Typography color="black">
                 <h1 style={{ marginBottom: "3px" }}>Josh Kung</h1>
               </Typography>
@@ -129,7 +163,7 @@ const ContactPage = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={1} lg={1}></Grid>
+        <Grid item xs={0} sm={1}></Grid>
       </Grid>
       <Grid
         container
@@ -138,10 +172,11 @@ const ContactPage = () => {
           backgroundColor: theme.palette.primary.main,
         }}
       >
-        <Grid item xs={1} lg={1}></Grid>
+        <Grid item xs={0} sm={1}></Grid>
         <Grid
           item
-          xs={10}
+          xs={12}
+          sm={10}
           sx={{
             boxShadow: 5,
             paddingTop: "50px",

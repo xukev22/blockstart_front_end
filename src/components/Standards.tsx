@@ -228,10 +228,10 @@ function Standards({ tabValue, standardSet, sport }: Props) {
         //alignItems: "center",
       }}
     >
-      <Grid item xs={1} lg={2}></Grid>
-      <Grid item xs={10} lg={8}>
+      <Grid item xs={0} sm={1} lg={2}></Grid>
+      <Grid item xs={12} sm={10} lg={8}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 10 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Event</TableCell>
@@ -258,7 +258,7 @@ function Standards({ tabValue, standardSet, sport }: Props) {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={1} lg={2}></Grid>
+      <Grid item xs={0} sm={1} lg={2}></Grid>
     </Grid>
   );
 }

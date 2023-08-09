@@ -11,9 +11,6 @@ const SearchResults = (props: Props) => {
   return (
     <Box sx={{ padding: "1rem" }}>
       {props.resultStatus === ResultStatus.SUCCESS && <ReturnedSchoolsTable results={props.results}/>}
-      {props.resultStatus === ResultStatus.INITIAL && (
-        <Typography>Query by criteria and/or by using your marks!</Typography>
-      )}
       {props.resultStatus === ResultStatus.ERROR && (
         <Typography>Something went wrong!</Typography>
       )}

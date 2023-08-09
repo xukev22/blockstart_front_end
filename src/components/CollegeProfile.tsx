@@ -98,7 +98,7 @@ const CollegeProfile = () => {
   const tabComponent = switchComponents();
   //RETURN COLLEGE PROFILE PAGE
   return (
-    <div className="CollegeProfile">
+    <div>
       <Grid
         container
         paddingTop={"10px"}
