@@ -142,7 +142,12 @@ const SearchBothButton = (props: Props) => {
   };
 
   return (
-    <Button variant="contained" color="info" onClick={clickHandlerBothSearch}>
+    <Button
+      size="small"
+      variant="contained"
+      color="info"
+      onClick={clickHandlerBothSearch}
+    >
       Search Both
     </Button>
   );

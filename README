@@ -1,5 +1,10 @@
 TODO;
 
+DEPLOY: 
+ADD LINKS
+TEST
+CLEANUP
+
 MAIN NAV/GENERAL:
 "auto" for sx in mainnav grid spacing
 use error useState var in main nav, make more dynamic error page

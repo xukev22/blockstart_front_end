@@ -1,16 +1,15 @@
 import { useParams, useLoaderData, LoaderFunction } from "react-router-dom";
 import {
-  Box,
   Button,
   ButtonGroup,
   Grid,
-  Paper,
   Tabs,
   Tab,
   makeStyles,
   Link,
   Typography,
   Container,
+  useMediaQuery,
 } from "@mui/material";
 import * as ReactIcons from "@mui/icons-material";
 import { useState } from "react";
@@ -25,12 +24,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MoreInfo from "./MoreInfo";
+//import { useMediaQuery } from "react-responsive";
 
 const CollegeProfile = () => {
   const params = useParams();
   const data = useLoaderData();
   const dataCast: CollegeProfileData = data as CollegeProfileData;
   console.log(dataCast);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   //College Profile Tabs HANDLER
   const [selectedTab, setSelectedTab] = useState("one");
@@ -98,7 +99,7 @@ const CollegeProfile = () => {
   const tabComponent = switchComponents();
   //RETURN COLLEGE PROFILE PAGE
   return (
-    <div>
+    <div className="CollegeProfile">
       <Grid
         container
         paddingTop={"10px"}
@@ -108,7 +109,7 @@ const CollegeProfile = () => {
           width: "100%",
         }}
       >
-        <Grid item xs={1}></Grid>
+        <Grid item xs={2} sm={1}></Grid>
 
         <Grid
           item
@@ -118,35 +119,26 @@ const CollegeProfile = () => {
             justifyContent: "center",
             alignItems: "self-start",
           }}
-          xs={3}
+          xs={10}
+          sm={3}
         >
+          <Typography
+            color="white"
+            style={{
+              fontWeight: "bold",
+              paddingTop: "35px",
+              paddingBottom: "5px",
+            }}
+            variant="h4"
+          >
+            {dataCast.essentials.name}
+          </Typography>
+
           <Typography color="white">
-            <h1 style={{ marginBottom: "5px" }}>{dataCast.essentials.name}</h1>
-            <span>
-              {dataCast.eb?.town}, {dataCast.essentials.state}
-            </span>
+            {dataCast.eb?.town}, {dataCast.essentials.state}
           </Typography>
         </Grid>
-        <Grid
-          item
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          xs={4}
-        >
-          <Typography color="white">
-            <h1 style={{ marginBottom: "5px" }}>
-              Division {dataCast.essentials.division}
-            </h1>
-          </Typography>
-          <Typography color="white">
-            <span>{dataCast.essentials.conference}</span>
-          </Typography>
-        </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={2} sm={1}></Grid>
 
         <Grid
           item
@@ -154,9 +146,38 @@ const CollegeProfile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "self-start",
+            alignItems: isSmallScreen ? "start" : "center",
+            paddingBottom: isSmallScreen ? "20px" : "0px",
           }}
-          xs={3}
+          xs={10}
+          sm={2}
+        >
+          <Typography
+            color="white"
+            style={{
+              fontWeight: "bold",
+              paddingTop: "35px",
+              paddingBottom: "5px",
+            }}
+            variant="h4"
+          >
+            Division {dataCast.essentials.division}
+          </Typography>
+          <Typography color="white">
+            {dataCast.essentials.conference}
+          </Typography>
+        </Grid>
+        <Grid item xs={2}></Grid>
+        <Grid
+          item
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: isSmallScreen ? "start" : "start",
+          }}
+          xs={10}
+          sm={3}
         >
           <Link href={`https://${dataCast.essentials.mainWebsiteURL}`}>
             <Button
@@ -208,7 +229,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     `http://localhost:8080/colleges/getDetailsForCollegeByName?collegeName=${params.collegeName}`
   );
   if (!response.ok) {
-    throw new Error("Getting college by name faileda!");
+    throw new Error("Getting college by name failed!");
   } else {
     const resData = await response.json();
     return resData;

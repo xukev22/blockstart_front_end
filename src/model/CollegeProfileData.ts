@@ -1,20 +1,20 @@
-enum Division {
-  I = "I",
-  II = "II",
-  III = "III",
-}
+// enum Division {
+//   I = "I",
+//   II = "II",
+//   III = "III",
+// }
 
-enum PublicPrivateState {
-  PUBLIC = "PUBLIC",
-  PRIVATE = "PRIVATE",
-  DEFAULT = "DEFAULT",
-}
+// enum PublicPrivateState {
+//   PUBLIC = "PUBLIC",
+//   PRIVATE = "PRIVATE",
+//   DEFAULT = "DEFAULT",
+// }
 
-enum HBCUState {
-  YES = "YES",
-  NO = "NO",
-  DEFAULT = "DEFAULT",
-}
+// enum HBCUState {
+//   YES = "YES",
+//   NO = "NO",
+//   DEFAULT = "DEFAULT",
+// }
 
 export enum EventType {
   MALE_TRACK_55 = "MALE_TRACK_55",

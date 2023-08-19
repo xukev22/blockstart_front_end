@@ -188,15 +188,15 @@ const ContactPage = () => {
           <Grid item xs={10}>
             <h1>What is Blockstart?</h1>
             <span>
-              Being two walkons to the Northeastern track team, we understand
-              how difficult the college search can be for student athletes.
-              Blockstart is the ultimate college search tool for track athletes
-              looking to take their talents to the next level. Athletes can
-              enter their event PRs and other preferences into our Recruit
+              As two walk-ons to the Northeastern T&F team, we understand how
+              confusing the college search can be for student athletes.
+              Blockstart is the ultimate college search tool for Track & Field
+              athletes looking to take their talents to the next level. Athletes
+              can enter their event PRs and other preferences into our Recruit
               Finder and receive a list of schools that match their talents and
               interests. Recruiting standards are based on real, up to date meet
-              records, seperated into three categories: Walkon, Soft recruit,
-              and Hard recruit.
+              records, seperated into three estimated recruitment levels: Walk
+              On, Soft Recruit, and Hard Recruit.
             </span>
           </Grid>
         </Grid>

@@ -7,7 +7,7 @@ const RootLayout = () => {
   const theme = useTheme();
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Stack spacing={isSmallerScreen ? 10 : 5}>
+    <Stack spacing={isSmallerScreen ? 10 : 4}>
       <MainNavigation />
       <Outlet />
     </Stack>

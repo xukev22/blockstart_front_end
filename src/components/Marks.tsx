@@ -85,7 +85,10 @@ const Marks = (props: Props) => {
 
       props.changeResultStatus(ResultStatus.LOADING);
 
-      let filterDTO: FilterDTO = { gender: props.activeGender, userInput: {} };
+      const filterDTO: FilterDTO = {
+        gender: props.activeGender,
+        userInput: {},
+      };
       // Iterate through the userInput object and map events to their corresponding event names.
       for (const [textFieldName, value] of Object.entries(props.userInput)) {
         const eventName = textFieldToEventTypeName(
@@ -444,13 +447,19 @@ const Marks = (props: Props) => {
           }}
         >
           <Button
+            size="small"
             variant="contained"
             color="success"
             onClick={clickHandlerMarksSearch}
           >
             Search
           </Button>
-          <Button variant="contained" color="error" onClick={clearMarksFields}>
+          <Button
+            size="small"
+            variant="contained"
+            color="error"
+            onClick={clearMarksFields}
+          >
             Clear Fields
           </Button>
           <SearchBothButton

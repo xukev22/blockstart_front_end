@@ -281,8 +281,10 @@ const Criteria = (props: Props) => {
               </Button>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={10}>
             <Autocomplete
+              size="small"
               key={conferenceKey}
               onChange={(evt, value) => {
                 if (value) {
@@ -304,8 +306,11 @@ const Criteria = (props: Props) => {
               )}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={10}>
             <Autocomplete
+              size="small"
               key={stateKey}
               onChange={(evt, value) => {
                 if (value) {
@@ -327,6 +332,8 @@ const Criteria = (props: Props) => {
               )}
             />
           </Grid>
+          <Grid item xs={1}></Grid>
+
           <Grid item xs>
             <ButtonGroup variant="outlined">
               <Button
@@ -405,10 +412,16 @@ const Criteria = (props: Props) => {
           variant="contained"
           color="success"
           onClick={clickHandlerCriteriaSearch}
+          size="small"
         >
           Search
         </Button>
-        <Button variant="contained" color="error" onClick={clearCriteriaFields}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={clearCriteriaFields}
+          size="small"
+        >
           Clear Criteria
         </Button>
         <SearchBothButton

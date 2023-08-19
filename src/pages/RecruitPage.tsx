@@ -80,7 +80,7 @@ type AllEventNames =
   | (typeof eventNamesXC)[number];
 
 export type UserInput = Partial<Record<AllEventNames, string>>;
-import { EventType } from "../model/CollegeProfileData"; //reminder to maybe fix the need for this using event type reverse mapping
+// import { EventType } from "../model/CollegeProfileData"; reminder to maybe fix the need for this using event type reverse mapping
 
 // const fetchHardCoded = async () => {
 //   const filterDTO = {
@@ -234,14 +234,57 @@ const RecruitPage = () => {
   return (
     // box for anti-horizontal scroll
     <Box>
-      <Grid container>
-        <Grid item xs={12} sm={12} md={7}>
+      <Grid container sx={{ paddingTop: "40px" }}>
+        <Grid item xs={0} sm={0} md={0.5}></Grid>
+        <Grid item xs={12} sm={12} md={7.5}>
+          <SearchResults results={results} resultStatus={resultStatus} />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={3.5}>
           <Stack
             direction="column"
             divider={<Divider orientation="horizontal" flexItem />}
             spacing={2}
           >
-            <SearchResults results={results} resultStatus={resultStatus} />
+            <Marks
+              criteriaIsValid={criteriaIsValid}
+              marksIsValid={marksIsValid}
+              eventNamesTrackShort={eventNamesTrackShort}
+              eventNamesTrackLong={eventNamesTrackLong}
+              eventNamesField={eventNamesField}
+              eventNamesXC={eventNamesXC}
+              userInput={userInput}
+              changeUserInput={(eventName: string, value: string) => {
+                setUserInput((prevState) => {
+                  if (value !== "") {
+                    return {
+                      ...prevState,
+                      [`${eventName}`]: `${value}`,
+                    };
+                  } else {
+                    const newState = { ...prevState };
+                    delete newState[`${eventName}`];
+                    return newState;
+                  }
+                });
+                if (eventName === "RESET" && value === "RESET") {
+                  setUserInput({});
+                }
+              }}
+              activeGender={activeGender}
+              changeGender={(gender: string) => setActiveGender(gender)}
+              changeResults={(results: Result[]) => setResults(results)}
+              changeResultStatus={(status: ResultStatus) =>
+                setResultStatus(status)
+              }
+              siblingInfo={{
+                activeDivision,
+                activeConference,
+                activeState,
+                publicPrivate,
+                hbcuOrNot,
+              }}
+            />
             <Criteria
               eventNamesField={eventNamesField}
               criteriaIsValid={criteriaIsValid}
@@ -267,48 +310,6 @@ const RecruitPage = () => {
               siblingInfo={{ activeGender, userInput }}
             />
           </Stack>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <Marks
-            criteriaIsValid={criteriaIsValid}
-            marksIsValid={marksIsValid}
-            eventNamesTrackShort={eventNamesTrackShort}
-            eventNamesTrackLong={eventNamesTrackLong}
-            eventNamesField={eventNamesField}
-            eventNamesXC={eventNamesXC}
-            userInput={userInput}
-            changeUserInput={(eventName: string, value: string) => {
-              setUserInput((prevState) => {
-                if (value !== "") {
-                  return {
-                    ...prevState,
-                    [`${eventName}`]: `${value}`,
-                  };
-                } else {
-                  const newState = { ...prevState };
-                  delete newState[`${eventName}`];
-                  return newState;
-                }
-              });
-              if (eventName === "RESET" && value === "RESET") {
-                setUserInput({});
-              }
-            }}
-            activeGender={activeGender}
-            changeGender={(gender: string) => setActiveGender(gender)}
-            changeResults={(results: Result[]) => setResults(results)}
-            changeResultStatus={(status: ResultStatus) =>
-              setResultStatus(status)
-            }
-            siblingInfo={{
-              activeDivision,
-              activeConference,
-              activeState,
-              publicPrivate,
-              hbcuOrNot,
-            }}
-          />
         </Grid>
       </Grid>
       <ToastContainer />

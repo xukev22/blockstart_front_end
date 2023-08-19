@@ -117,19 +117,24 @@ const MainNavigation = () => {
         {/* Smaller width navbar for small screens */}
         <AppBar sx={{ background: primaryColor }}>
           <Grid columns={12} container>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstart_logo_mobile.png"
+                  src="/src/images/blockstartLogoNew.png"
                   duration={0}
-                  fit="fill"
+                  fit="cover"
+                  style={{ height: 30 }}
                 />
               </Link>
             </Grid>
             <Grid item xs={5}>
               {/* Modify the size of the search bar */}
               <Box sx={{ margin: "0.5rem" }}>
-                <Paper component="form" onSubmit={submitHandlerSearch}>
+                <Paper
+                  elevation={0}
+                  component="form"
+                  onSubmit={submitHandlerSearch}
+                >
                   <Autocomplete
                     clearOnEscape
                     disablePortal
@@ -167,7 +172,7 @@ const MainNavigation = () => {
                 </IconButton>
               </Box>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Box
                 sx={{
                   display: "flex",
@@ -222,17 +227,22 @@ const MainNavigation = () => {
             <Grid item xs={2}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstart_logo.png"
+                  src="/src/images/blockstartLogoNew.png"
                   duration={0}
                   fit="cover"
+                  style={{ height: 70, width: 190 }}
                 />
               </Link>
             </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={10}>
-              {/* Modify the size of the search bar */}
+            <Grid item xs={4}></Grid>
+            <Grid item xs={9}>
+              {/* Modify the  size of the search bar */}
               <Box sx={{ margin: "0.5rem" }}>
-                <Paper component="form" onSubmit={submitHandlerSearch}>
+                <Paper
+                  elevation={0}
+                  component="form"
+                  onSubmit={submitHandlerSearch}
+                >
                   <Autocomplete
                     clearOnEscape
                     disablePortal
@@ -261,7 +271,7 @@ const MainNavigation = () => {
                 <SearchIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Link to="/recruit">
                   <Tab

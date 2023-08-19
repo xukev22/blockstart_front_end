@@ -9,17 +9,32 @@ import {
   TableRow,
   Grid,
   Paper,
+  Typography,
 } from "@mui/material";
 import theme from "../theme/theme";
 import { StandardsSet } from "../model/CollegeProfileData";
 import { EventType } from "../model/CollegeProfileData";
 import { Mark } from "../model/CollegeProfileData";
-//import { existingEventsMapAndTheirTargetStandard } from "../model/CollegeProfileData";
-import { eventToReadableName, eventToEventGroup } from "../utils/mappings";
+import CollapsibleRow from "./CollapsibleRow";
+import {
+  eventToReadableName,
+  eventToEventGroup,
+  eventToEventCategory,
+} from "../utils/mappings";
+
 interface Props {
   tabValue: string;
   standardSet: StandardsSet | null;
   sport: string;
+}
+
+export function createData(
+  name: string,
+  walkon: string | undefined,
+  soft: string | undefined,
+  hard: string | undefined
+) {
+  return { name, walkon, soft, hard };
 }
 
 function Standards({ tabValue, standardSet, sport }: Props) {
@@ -48,27 +63,18 @@ function Standards({ tabValue, standardSet, sport }: Props) {
   //sets standards based on tabValue
   const setStandards = () => {
     if (tabValue == "two") {
-      //female
+      //female standards
       walkonStandard = standardSet?.femaleWalkOn;
       softStandard = standardSet?.femaleSoftRecruit;
       hardStandard = standardSet?.femaleHardRecruit;
     } else {
-      //male
+      //male standards
       walkonStandard = standardSet?.maleWalkOn;
       softStandard = standardSet?.maleSoftRecruit;
       hardStandard = standardSet?.maleHardRecruit;
     }
   };
 
-  //TABLE START
-  function createData(
-    name: string,
-    walkon: string | undefined,
-    soft: string | undefined,
-    hard: string | undefined
-  ) {
-    return { name, walkon, soft, hard };
-  }
   const rows: {
     name: string;
     walkon: string | undefined;
@@ -76,7 +82,31 @@ function Standards({ tabValue, standardSet, sport }: Props) {
     hard: string | undefined;
   }[] = [];
 
-  //creates the rows of standards
+  // the events that go under the short events dropdown
+  const shortEventRows: {
+    name: string;
+    walkon: string | undefined;
+    soft: string | undefined;
+    hard: string | undefined;
+  }[] = [];
+
+  // the events that go under the long events dropdown
+  const longEventRows: {
+    name: string;
+    walkon: string | undefined;
+    soft: string | undefined;
+    hard: string | undefined;
+  }[] = [];
+
+  // the events that go under the field events dropdown
+  const fieldRows: {
+    name: string;
+    walkon: string | undefined;
+    soft: string | undefined;
+    hard: string | undefined;
+  }[] = [];
+
+  //creates all the rows of standards
   const createRows = () => {
     let name: string;
     let walkonForEvent: string | undefined;
@@ -201,60 +231,109 @@ function Standards({ tabValue, standardSet, sport }: Props) {
           //create data
           createData(name, walkonForEvent, softForEvent, hardForEvent);
           //add to array
-          rows.push(
-            createData(name, walkonForEvent, softForEvent, hardForEvent)
-          );
+          if (eventToEventCategory[eventType] == "Short") {
+            shortEventRows.push(
+              createData(name, walkonForEvent, softForEvent, hardForEvent)
+            );
+          } else if (eventToEventCategory[eventType] == "Long") {
+            longEventRows.push(
+              createData(name, walkonForEvent, softForEvent, hardForEvent)
+            );
+          } else if (eventToEventCategory[eventType] == "Field") {
+            fieldRows.push(
+              createData(name, walkonForEvent, softForEvent, hardForEvent)
+            );
+          } else {
+            rows.push(
+              createData(name, walkonForEvent, softForEvent, hardForEvent)
+            );
+          }
         }
       }
     }
+    shortEventRows.sort((a, b) => a.name.localeCompare(b.name));
+    longEventRows.sort((a, b) => a.name.localeCompare(b.name));
+    fieldRows.sort((a, b) => a.name.localeCompare(b.name));
     rows.sort((a, b) => a.name.localeCompare(b.name));
+  };
+  const switchSports = () => {
+    if (sport == "XC") {
+      return (
+        <>
+          <TableHead>
+            <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+              <TableCell component="th" scope="row">
+                <Typography variant="h6">Cross Country</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableHead>
+            <TableRow>
+              <TableCell>Event</TableCell>
+              <TableCell align="center">Walk-on</TableCell>
+              <TableCell align="center">Soft Recruit</TableCell>
+              <TableCell align="center">Hard Recruit</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                  },
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="center">{row.walkon}</TableCell>
+                <TableCell align="center">{row.soft}</TableCell>
+                <TableCell align="center">{row.hard}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </>
+      );
+    } else
+      return (
+        <TableBody>
+          <CollapsibleRow
+            name="Short Events"
+            eventRows={shortEventRows}
+          ></CollapsibleRow>
+          <CollapsibleRow
+            name="Long Events"
+            eventRows={longEventRows}
+          ></CollapsibleRow>
+          <CollapsibleRow
+            name="Field Events"
+            eventRows={fieldRows}
+          ></CollapsibleRow>
+        </TableBody>
+      );
   };
   setStandards();
   createRows();
+  const switchSport = switchSports();
+
   //Table
   return (
     <Grid
       container
       paddingTop={"50px"}
       paddingBottom={"100px"}
-      // paddingLeft={"200px"}
-      // paddingRight={"200px"}
       sx={{
         backgroundColor: theme.palette.primary.main,
-        //width: "100%",
-        //display: "flex",
-        //flexDirection: "column",
-        //justifyContent: "center",
-        //alignItems: "center",
       }}
     >
       <Grid item xs={0} sm={1} lg={2}></Grid>
       <Grid item xs={12} sm={10} lg={8}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 10 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Event</TableCell>
-                <TableCell align="right">Walk-on</TableCell>
-                <TableCell align="right">Soft Recruit</TableCell>
-                <TableCell align="right">Hard Recruit</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.walkon}</TableCell>
-                  <TableCell align="right">{row.soft}</TableCell>
-                  <TableCell align="right">{row.hard}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {switchSport}
           </Table>
         </TableContainer>
       </Grid>
