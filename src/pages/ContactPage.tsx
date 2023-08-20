@@ -47,7 +47,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Kevin Xu"
-                src="/src/images/kevprofilepic.jpeg"
+                src="/images/kevprofilepic.jpeg"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -107,7 +107,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Joshua Kung"
-                src="/src/images/joshprofilepic.png"
+                src="/images/joshprofilepic.png"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>

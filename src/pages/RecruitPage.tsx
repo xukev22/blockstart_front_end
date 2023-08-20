@@ -9,6 +9,7 @@ import SearchResults from "../components/SearchResults";
 import { useState, useCallback, useEffect } from "react";
 
 import { CollegeProfileDataWrapper } from "../model/CollegeProfileData";
+import { domain } from "../constants/data-api";
 
 export enum ResultStatus {
   SUCCESS = "SUCCESS",
@@ -82,42 +83,6 @@ type AllEventNames =
 export type UserInput = Partial<Record<AllEventNames, string>>;
 // import { EventType } from "../model/CollegeProfileData"; reminder to maybe fix the need for this using event type reverse mapping
 
-// const fetchHardCoded = async () => {
-//   const filterDTO = {
-//     gender: "MALE",
-//     userInput: {
-//       MALE_TRACK_100: "10.85",
-//       MALE_FIELD_POLE_VAULT: "3.25m",
-//       MALE_FIELD_HIGH_JUMP: "1.95m",
-//     },
-//   };
-
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8080/colleges/getMatchingColleges",
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(filterDTO),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Request failed");
-//     }
-
-//     const data = await response.json();
-
-//     // Handle the response data
-//     console.log(data);
-//   } catch (error) {
-//     // Handle any errors
-//     console.error(error);
-//   }
-// };
-
 const RecruitPage = () => {
   const [activeDivision, setActiveDivision] = useState("");
   const [publicPrivate, setPublicPrivate] = useState("");
@@ -134,9 +99,7 @@ const RecruitPage = () => {
   );
   const fetchAllCollegesHandler = useCallback(async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/colleges/getAllColleges`
-      );
+      const response = await fetch(`${domain}/colleges/getAllColleges`);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }

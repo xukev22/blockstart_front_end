@@ -54,6 +54,7 @@ import {
   tagsToString,
   textFieldToEventTypeName,
 } from "../utils/mappings";
+import { domain } from "../constants/data-api";
 
 export interface FilterDTO {
   gender?: string;
@@ -121,16 +122,13 @@ const Marks = (props: Props) => {
       }
 
       try {
-        const response = await fetch(
-          "http://localhost:8080/colleges/getMatchingColleges",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(filterDTO),
-          }
-        );
+        const response = await fetch(`${domain}/colleges/getMatchingColleges`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filterDTO),
+        });
 
         if (!response.ok) {
           throw new Error("Request failed");

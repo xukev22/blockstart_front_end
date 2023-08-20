@@ -18,6 +18,7 @@ import { CRITERIA_INVALID } from "../constants/recruit-page-error-messages";
 import { CollegeProfileDataWrapper } from "../model/CollegeProfileData";
 import { convertFullNameToAbbreviation, convertState } from "../utils/mappings";
 import { FilterDTO } from "./Marks";
+import { domain } from "../constants/data-api";
 
 interface Props {
   eventNamesField: string[];
@@ -53,7 +54,7 @@ const Criteria = (props: Props) => {
   const fetchCollegeConferencesHandler = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/colleges/getListOfAllConferences`
+        `${domain}/colleges/getListOfAllConferences`
       );
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -71,9 +72,7 @@ const Criteria = (props: Props) => {
 
   const fetchCollegeStatesHandler = useCallback(async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/colleges/getListOfAllStates`
-      );
+      const response = await fetch(`${domain}/colleges/getListOfAllStates`);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -121,16 +120,13 @@ const Criteria = (props: Props) => {
       }
 
       try {
-        const response = await fetch(
-          "http://localhost:8080/colleges/getMatchingColleges",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(filterDTO),
-          }
-        );
+        const response = await fetch(`${domain}/colleges/getMatchingColleges`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filterDTO),
+        });
 
         if (!response.ok) {
           throw new Error("Request failed");

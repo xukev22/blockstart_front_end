@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Image from "mui-image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { domain } from "../constants/data-api";
 
 const MainNavigation = () => {
   const [collegeNames, setCollegeNames] = useState<string[]>([]);
@@ -32,7 +33,7 @@ const MainNavigation = () => {
   const fetchCollegeNamesHandler = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/colleges/getListOfAllCollegeNames`
+        `${domain}/colleges/getListOfAllCollegeNames`
       );
       if (!response.ok) {
         throw new Error("Something went wrong!");
