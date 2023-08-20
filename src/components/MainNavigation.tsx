@@ -46,6 +46,8 @@ const MainNavigation = () => {
     }
   }, []);
 
+  console.log(error);
+
   const isValid = (name: string | undefined) => {
     if (!name) {
       return false;
@@ -119,7 +121,7 @@ const MainNavigation = () => {
             <Grid item xs={4}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstartLogoNew.png"
+                  src="/images/blockstartLogoNew.png"
                   duration={0}
                   fit="cover"
                   style={{ height: 30 }}
@@ -226,7 +228,7 @@ const MainNavigation = () => {
             <Grid item xs={2}>
               <Link to="/">
                 <Image
-                  src="/src/images/blockstartLogoNew.png"
+                  src="/images/blockstartLogoNew.png"
                   duration={0}
                   fit="cover"
                   style={{ height: 70, width: 190 }}

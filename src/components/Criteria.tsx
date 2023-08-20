@@ -67,6 +67,8 @@ const Criteria = (props: Props) => {
     }
   }, []);
 
+  console.log(error);
+
   const fetchCollegeStatesHandler = useCallback(async () => {
     try {
       const response = await fetch(
@@ -249,6 +251,7 @@ const Criteria = (props: Props) => {
               size="small"
               key={conferenceKey}
               onChange={(evt, value) => {
+                console.log(evt);
                 if (value) {
                   props.changeConference(value);
                 } else {
@@ -275,6 +278,7 @@ const Criteria = (props: Props) => {
               size="small"
               key={stateKey}
               onChange={(evt, value) => {
+                console.log(evt);
                 if (value) {
                   props.changeState(value);
                 } else {

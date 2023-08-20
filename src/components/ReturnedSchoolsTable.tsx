@@ -175,6 +175,7 @@ export default function ReturnedSchoolsTable(props: Props) {
   }, [props.results, sortColumn, sortDirection]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log(event);
     setPage(newPage);
   };
 
@@ -261,7 +262,10 @@ export default function ReturnedSchoolsTable(props: Props) {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <Link
-                                to={`/colleges/${value.replace("&", "---and---")}`}
+                                to={`/colleges/${value.replace(
+                                  "&",
+                                  "---and---"
+                                )}`}
                               >
                                 {value}
                               </Link>

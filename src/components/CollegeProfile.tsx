@@ -1,4 +1,4 @@
-import { useParams, useLoaderData, LoaderFunction } from "react-router-dom";
+import { useLoaderData, LoaderFunction } from "react-router-dom";
 import {
   Button,
   Grid,
@@ -36,6 +36,7 @@ const CollegeProfile = () => {
     event: React.SyntheticEvent<Element, Event>,
     newValue: any
   ) => {
+    console.log(event);
     setSelectedTab(newValue);
   };
 
