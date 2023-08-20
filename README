@@ -10,6 +10,9 @@ MAIN NAV/GENERAL:
 use error useState var in main nav, make more dynamic error page
 fix label focus color for autocompletes
 fix stack (hacky) in RootLayout outlet separation
+fix the mobile toast alerts
+colors (stanford, etc.)
+hacky static global class
 
 RECRUIT FINDER:
 use error useState, more dynamic

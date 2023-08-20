@@ -261,7 +261,7 @@ export default function ReturnedSchoolsTable(props: Props) {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <Link
-                                to={`/colleges/${value.replace("&", "and")}`}
+                                to={`/colleges/${value.replace("&", "---and---")}`}
                               >
                                 {value}
                               </Link>

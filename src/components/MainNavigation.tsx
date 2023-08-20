@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
+import { GlobalReference } from "../utils/global-reference";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useTheme,
@@ -60,6 +61,10 @@ const MainNavigation = () => {
 
   const collegeNameRef = useRef<HTMLInputElement | null>(null);
 
+  useEffect(() => {
+    GlobalReference.navSearchBar = collegeNameRef;
+  }, []);
+
   const submitHandlerSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -67,7 +72,7 @@ const MainNavigation = () => {
 
     const removeAmpersandSelectedCollegeName = selectedCollegeName?.replace(
       "&",
-      "and"
+      "---and---"
     );
 
     if (isValid(selectedCollegeName)) {
@@ -84,7 +89,7 @@ const MainNavigation = () => {
 
     const removeAmpersandSelectedCollegeName = selectedCollegeName?.replace(
       "&",
-      "and"
+      "---and---"
     );
 
     if (isValid(selectedCollegeName)) {

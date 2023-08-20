@@ -121,12 +121,10 @@ function Standards({ tabValue, standardSet, sport }: Props) {
       for (const [eventType, mark] of Object.entries(
         walkonStandard.existingEventsMapAndTheirTargetStandard
       )) {
-        console.log(sport);
-        console.log(eventToEventGroup[eventType]);
-        if (eventToEventGroup[eventType] == sport) {
+        if (eventToEventGroup[eventType as EventType] == sport) {
           //get name
           nameId = eventType;
-          name = eventToReadableName[eventType];
+          name = eventToReadableName[eventType as EventType];
           //get walkon
           if (mark !== undefined) {
             console.log(`Event: ${eventType}, Mark: ${mark}`);
@@ -146,6 +144,8 @@ function Standards({ tabValue, standardSet, sport }: Props) {
               }
             } else if (mark.type == "distance") {
               walkonForEvent = mark.meters?.toFixed(2) + "m";
+            } else if (mark.type == "points") {
+              walkonForEvent = mark.points + "pts";
             } else {
               walkonForEvent = "No Data";
             }
@@ -183,7 +183,9 @@ function Standards({ tabValue, standardSet, sport }: Props) {
                 }
               } else if (softMap[nameId as EventType]?.type == "distance") {
                 softForEvent =
-                  softMap[nameId as EventType]?.meters.toFixed(2) + "m";
+                  softMap[nameId as EventType]?.meters?.toFixed(2) + "m";
+              } else if (softMap[nameId as EventType]?.type == "points") {
+                softForEvent = softMap[nameId as EventType]?.points + "pts";
               } else {
                 softForEvent = "No Data";
               }
@@ -221,7 +223,9 @@ function Standards({ tabValue, standardSet, sport }: Props) {
                 }
               } else if (hardMap[nameId as EventType]?.type == "distance") {
                 hardForEvent =
-                  hardMap[nameId as EventType]?.meters.toFixed(2) + "m";
+                  hardMap[nameId as EventType]?.meters?.toFixed(2) + "m";
+              } else if (hardMap[nameId as EventType]?.type == "points") {
+                hardForEvent = hardMap[nameId as EventType]?.points + "pts";
               } else {
                 hardForEvent = "No Data";
               }
@@ -231,15 +235,18 @@ function Standards({ tabValue, standardSet, sport }: Props) {
           //create data
           createData(name, walkonForEvent, softForEvent, hardForEvent);
           //add to array
-          if (eventToEventCategory[eventType] == "Short") {
+          if (eventToEventCategory[eventType as EventType] == "Short") {
             shortEventRows.push(
               createData(name, walkonForEvent, softForEvent, hardForEvent)
             );
-          } else if (eventToEventCategory[eventType] == "Long") {
+          } else if (eventToEventCategory[eventType as EventType] == "Long") {
             longEventRows.push(
               createData(name, walkonForEvent, softForEvent, hardForEvent)
             );
-          } else if (eventToEventCategory[eventType] == "Field") {
+          } else if (
+            eventToEventCategory[eventType as EventType] == "Field" ||
+            eventToEventCategory[eventType as EventType] == "Multi"
+          ) {
             fieldRows.push(
               createData(name, walkonForEvent, softForEvent, hardForEvent)
             );
@@ -309,7 +316,7 @@ function Standards({ tabValue, standardSet, sport }: Props) {
             eventRows={longEventRows}
           ></CollapsibleRow>
           <CollapsibleRow
-            name="Field Events"
+            name="Field Events + Multi"
             eventRows={fieldRows}
           ></CollapsibleRow>
         </TableBody>

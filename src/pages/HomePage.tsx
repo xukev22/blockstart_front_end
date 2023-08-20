@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import Image from "mui-image";
 import theme from "../theme/theme";
+import { GlobalReference } from "../utils/global-reference";
 
 const HomePage = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -90,6 +91,9 @@ const HomePage = () => {
                 variant="contained"
                 color="secondary"
                 size={isLargeScreen ? "medium" : "large"}
+                onClick={() => {
+                  GlobalReference.navSearchBar.current?.focus();
+                }}
               >
                 Search College
               </Button>
