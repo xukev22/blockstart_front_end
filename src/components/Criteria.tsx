@@ -4,8 +4,6 @@ import {
   Autocomplete,
   Grid,
   Button,
-  Stack,
-  Divider,
   TextField,
   useTheme,
   ButtonGroup,
@@ -39,42 +37,6 @@ interface Props {
   changeResultStatus: (status: ResultStatus) => void;
   siblingInfo: { activeGender: string; userInput: UserInput };
 }
-
-// const fetchHardCoded = async () => {
-//   const filterDTO = {
-//     gender: "MALE",
-//     userInput: {
-//       MALE_TRACK_100: "10.85",
-//       MALE_FIELD_POLE_VAULT: "3.25m",
-//       MALE_FIELD_HIGH_JUMP: "1.95m",
-//     },
-//   };
-
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8080/colleges/getMatchingColleges",
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(filterDTO),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Request failed");
-//     }
-
-//     const data = await response.json();
-
-//     // Handle the response data
-//     console.log(data);
-//   } catch (error) {
-//     // Handle any errors
-//     console.error(error);
-//   }
-// };
 
 const Criteria = (props: Props) => {
   const theme = useTheme();
@@ -176,7 +138,7 @@ const Criteria = (props: Props) => {
         const cpData = data as CollegeProfileDataWrapper[];
 
         // Handle the response data
-        console.log(cpData);
+        // console.log(cpData);
 
         const results: Result[] = cpData.map((cp) => {
           return {

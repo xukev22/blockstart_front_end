@@ -4,21 +4,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useTheme,
   AppBar,
-  Toolbar,
   Tab,
   Box,
   Paper,
   TextField,
   Drawer,
   Autocomplete,
-  Stack,
-  Button,
   Grid,
-  Divider,
   useMediaQuery,
-  Container,
   IconButton,
-  Icon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";

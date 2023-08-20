@@ -124,7 +124,7 @@ const SearchBothButton = (props: Props) => {
       } catch (error) {
         props.changeResultStatus(ResultStatus.ERROR);
         // Handle any errors
-        console.error(error);
+        // console.error(error);
       }
     } else if (props.criteriaIsValid()) {
       toast.error(MARKS_INVALID, {

@@ -1,14 +1,11 @@
 import { useParams, useLoaderData, LoaderFunction } from "react-router-dom";
 import {
   Button,
-  ButtonGroup,
   Grid,
   Tabs,
   Tab,
-  makeStyles,
   Link,
   Typography,
-  Container,
   useMediaQuery,
 } from "@mui/material";
 import * as ReactIcons from "@mui/icons-material";
@@ -27,10 +24,10 @@ import MoreInfo from "./MoreInfo";
 //import { useMediaQuery } from "react-responsive";
 
 const CollegeProfile = () => {
-  const params = useParams();
+  // const params = useParams();
   const data = useLoaderData();
   const dataCast: CollegeProfileData = data as CollegeProfileData;
-  console.log(dataCast);
+  // console.log(dataCast);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   //College Profile Tabs HANDLER

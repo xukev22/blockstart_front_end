@@ -1,7 +1,6 @@
-import { Grid, Typography, Button, Box, useMediaQuery } from "@mui/material";
+import { Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 
-import Image from "mui-image";
 import theme from "../theme/theme";
 import { GlobalReference } from "../utils/global-reference";
 

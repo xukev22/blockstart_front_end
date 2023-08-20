@@ -127,7 +127,7 @@ function Standards({ tabValue, standardSet, sport }: Props) {
           name = eventToReadableName[eventType as EventType];
           //get walkon
           if (mark !== undefined) {
-            console.log(`Event: ${eventType}, Mark: ${mark}`);
+            // console.log(`Event: ${eventType}, Mark: ${mark}`);
 
             if (mark.type == "time") {
               if (mark.minute == 0) {
@@ -150,7 +150,7 @@ function Standards({ tabValue, standardSet, sport }: Props) {
               walkonForEvent = "No Data";
             }
           } else {
-            console.log(`Event: ${eventType}, Mark is missing or undefined`);
+            // console.log(`Event: ${eventType}, Mark is missing or undefined`);
           }
           //get soft
           const softMap = softStandard?.existingEventsMapAndTheirTargetStandard;
