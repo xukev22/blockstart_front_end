@@ -73,7 +73,7 @@ const MainNavigation = () => {
     );
 
     if (isValid(selectedCollegeName)) {
-      navigate(`/colleges/${removeAmpersandSelectedCollegeName}`);
+      navigate(`/college/${removeAmpersandSelectedCollegeName}`);
     } else {
       toast.error("Enter a valid college name! (see dropdown)", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -90,7 +90,7 @@ const MainNavigation = () => {
     );
 
     if (isValid(selectedCollegeName)) {
-      navigate(`/colleges/${removeAmpersandSelectedCollegeName}`);
+      navigate(`/college/${removeAmpersandSelectedCollegeName}`);
     } else {
       toast.error("Enter a valid college name! (see dropdown)", {
         position: toast.POSITION.BOTTOM_RIGHT,
