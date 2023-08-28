@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       { path: "recruit", element: <RecruitPage /> },
       { path: "contact", element: <ContactPage /> },
       {
-        path: "colleges/:collegeName",
+        path: "college/:collegeName",
         element: <CollegeProfile />,
         loader: collegeProfileLoader,
       },
