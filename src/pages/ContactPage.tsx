@@ -6,7 +6,6 @@ import {
   Link,
   useMediaQuery,
   Chip,
-  rgbToHex,
 } from "@mui/material";
 import theme from "../theme/theme";
 import EmailIcon from "@mui/icons-material/Email";
