@@ -58,11 +58,11 @@ function getChipColor(tag: string) {
     const colorTag = parts[1].trim().toUpperCase();
     switch (colorTag) {
       case "WALK_ON":
-        return "#F4D06F"; // Yellow
+        return "darkorange"; // Yellow
       case "SOFT_RECRUIT":
-        return "#3DDC97"; // Green
+        return "yellowgreen"; // Green
       case "HARD_RECRUIT":
-        return "#623CEA"; // Blue
+        return "#2f78e6"; // Blue
       default:
         return "#000000"; // Black (fallback color)
     }

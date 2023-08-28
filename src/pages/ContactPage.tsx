@@ -6,6 +6,7 @@ import {
   Link,
   useMediaQuery,
   Chip,
+  rgbToHex,
 } from "@mui/material";
 import theme from "../theme/theme";
 import EmailIcon from "@mui/icons-material/Email";
@@ -48,7 +49,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Kevin Xu"
-                src="/src/images/kevprofilepic.jpeg"
+                src="/images/kevprofilepic.jpeg"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -108,7 +109,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Joshua Kung"
-                src="/src/images/joshprofilepic.png"
+                src="/images/joshprofilepic.png"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -250,14 +251,14 @@ const ContactPage = () => {
               <Chip
                 label="HARD RECRUIT:"
                 style={{
-                  backgroundColor: theme.palette.secondary.main,
+                  backgroundColor: "#2f78e6",
                   color: "#ffffff",
                 }}
               />
               <Typography sx={{ paddingLeft: "10px" }}>
                 If you meet the hard recruit standard this means your marks are
                 likely strong enough to get recruited to the school and sign an
-                NLI agreement. {"("}This applies for DI schools, and varies from
+                NIL agreement. {"("}This applies for DI schools, and varies from
                 school to school{")"}
               </Typography>
             </Grid>
