@@ -5,6 +5,7 @@ import {
   IconButton,
   Link,
   useMediaQuery,
+  Chip,
 } from "@mui/material";
 import theme from "../theme/theme";
 import EmailIcon from "@mui/icons-material/Email";
@@ -47,7 +48,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Kevin Xu"
-                src="/images/kevprofilepic.jpeg"
+                src="/src/images/kevprofilepic.jpeg"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -78,14 +79,14 @@ const ContactPage = () => {
               <Grid container>
                 <IconButton
                   component={Link}
-                  href={`https://www.instagram.com/kevuhh`}
+                  href={`https://instagram.com/joshkung_`}
                 >
                   <InstagramIcon fontSize="large" color="error" />
                 </IconButton>
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.linkedin.com/in/kevin-xu-08072a254/`}
+                  href={`https://instagram.com/joshkung_`}
                 >
                   <LinkedInIcon
                     fontSize="large"
@@ -95,7 +96,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://instagram.com/joshkung_`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>
@@ -107,7 +108,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Joshua Kung"
-                src="/images/joshprofilepic.png"
+                src="/src/images/joshprofilepic.png"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -145,7 +146,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://instagram.com/joshkung_`}
                 >
                   <LinkedInIcon
                     fontSize="large"
@@ -155,7 +156,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://instagram.com/joshkung_`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>
@@ -167,7 +168,7 @@ const ContactPage = () => {
       </Grid>
       <Grid
         container
-        paddingBottom={"500px"}
+        paddingBottom={"50px"}
         sx={{
           backgroundColor: theme.palette.primary.main,
         }}
@@ -187,7 +188,7 @@ const ContactPage = () => {
           <Grid item xs={1}></Grid>{" "}
           <Grid item xs={10}>
             <h1>What is Blockstart?</h1>
-            <span>
+            <Typography sx={{ paddingBottom: "40px" }}>
               As two walk-ons to the Northeastern T&F team, we understand how
               confusing the college search can be for student athletes.
               Blockstart is the ultimate college search tool for Track & Field
@@ -197,7 +198,69 @@ const ContactPage = () => {
               interests. Recruiting standards are based on real, up to date meet
               records, seperated into three estimated recruitment levels: Walk
               On, Soft Recruit, and Hard Recruit.
-            </span>
+            </Typography>
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                paddingBottom: "20px",
+              }}
+            >
+              <Chip
+                label="WALK ON:"
+                style={{
+                  backgroundColor: "darkorange",
+                  color: "#ffffff",
+                }}
+              />
+              <Typography sx={{ paddingLeft: "10px" }}>
+                If you meet the walkon standard this means your marks are likely
+                strong enough to reach out to the school for a walkon spot
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                paddingBottom: "20px",
+              }}
+            >
+              <Chip
+                label="SOFT RECRUIT:"
+                style={{ backgroundColor: "yellowgreen", color: "#ffffff" }}
+              />
+              <Typography sx={{ paddingLeft: "10px" }}>
+                If you meet the soft recruit standard this means your marks are
+                likely strong enough to get recruited by the school
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                paddingBottom: "20px",
+              }}
+            >
+              <Chip
+                label="HARD RECRUIT:"
+                style={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: "#ffffff",
+                }}
+              />
+              <Typography sx={{ paddingLeft: "10px" }}>
+                If you meet the hard recruit standard this means your marks are
+                likely strong enough to get recruited to the school and sign an
+                NLI agreement. {"("}This applies for DI schools, and varies from
+                school to school{")"}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

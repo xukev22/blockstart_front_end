@@ -13,8 +13,7 @@ const HomePage = () => {
       <Grid
         container
         sx={{
-          backgroundImage: "url(/images/home_sample.jpg)",
-          background: theme.palette.secondary.main,
+          backgroundImage: "url(/images/haywardfield4.png)",
           backgroundSize: "cover",
           height: "800px",
         }}
