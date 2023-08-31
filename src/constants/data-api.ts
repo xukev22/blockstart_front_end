@@ -1,1 +1,1 @@
-export const domain = "http://18.222.77.184/";
+export const domain = "http://www.blockstart.org/";
