@@ -140,10 +140,10 @@ const Criteria = (props: Props) => {
 
         const results: Result[] = cpData.map((cp) => {
           return {
-            college: cp.collegeProfile.essentials.name,
+            college: cp.collegeProfileSummary.name,
             tags: "None",
-            state: cp.collegeProfile.essentials.state,
-            division: cp.collegeProfile.essentials.division,
+            state: cp.collegeProfileSummary.state,
+            division: cp.collegeProfileSummary.division,
           };
         });
         props.changeResults(results);
