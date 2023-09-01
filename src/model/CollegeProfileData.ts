@@ -175,7 +175,7 @@ export enum RecruitType {
 }
 
 export interface CollegeProfileDataWrapper {
-  collegeProfile: CollegeProfileData;
+  collegeProfileSummary: { name: string; state: string; division: string };
   tags: Array<Partial<Record<EventType, RecruitType>>> | null;
 }
 

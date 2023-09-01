@@ -139,7 +139,7 @@ export default function ReturnedSchoolsTable(props: Props) {
   ];
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(isSmallScreen ? 5 : 10);
   const [sortColumn, setSortColumn] = useState<keyof Result>("college");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 

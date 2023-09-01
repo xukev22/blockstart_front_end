@@ -112,10 +112,10 @@ const RecruitPage = () => {
 
       const initResults: Result[] = cpData.map((cp) => {
         return {
-          college: cp.collegeProfile.essentials.name,
+          college: cp.collegeProfileSummary.name,
           tags: "None",
-          state: cp.collegeProfile.essentials.state,
-          division: cp.collegeProfile.essentials.division,
+          state: cp.collegeProfileSummary.state,
+          division: cp.collegeProfileSummary.division,
         };
       });
 
