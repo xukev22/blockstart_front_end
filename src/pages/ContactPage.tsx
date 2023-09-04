@@ -79,14 +79,14 @@ const ContactPage = () => {
               <Grid container>
                 <IconButton
                   component={Link}
-                  href={`https://instagram.com/joshkung_`}
+                  href={`https://instagram.com/kevuhh`}
                 >
                   <InstagramIcon fontSize="large" color="error" />
                 </IconButton>
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://instagram.com/joshkung_`}
+                  href={`https://www.linkedin.com/in/kevin-xu-08072a254/`}
                 >
                   <LinkedInIcon
                     fontSize="large"
@@ -96,7 +96,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://instagram.com/joshkung_`}
+                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>
@@ -146,7 +146,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://instagram.com/joshkung_`}
+                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
                 >
                   <LinkedInIcon
                     fontSize="large"
@@ -156,7 +156,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://instagram.com/joshkung_`}
+                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>

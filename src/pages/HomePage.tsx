@@ -13,7 +13,9 @@ const HomePage = () => {
       <Grid
         container
         sx={{
-          backgroundImage: "url(/images/haywardfield4.png)",
+          background: theme.palette.secondary.main,
+          backgroundImage: "url(/public/images/haywardfield_smaller.png)",
+
           backgroundSize: "cover",
           height: "800px",
         }}
@@ -43,7 +45,7 @@ const HomePage = () => {
             color="white"
             style={{
               fontWeight: "bold",
-              paddingBottom: "30px",
+              paddingBottom: isSmallScreen ? "0px" : "30px",
             }}
             variant="h2"
           >
@@ -53,27 +55,29 @@ const HomePage = () => {
           <Grid
             container //WHITE BOX CONTAINER
             sx={{
-              backgroundColor: "#f0f0f0", // Customize background color
+              backgroundColor: isSmallScreen ? "#" : "#f0f0f0", // Customize background color
               borderRadius: "16px", // Adjust the radius as needed
               height: isSmallScreen ? "100px" : "80px",
             }}
           >
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant={isLargeScreen ? "body1" : "h5"}>
-                Take Your Talents To The Next Level
-              </Typography>
-            </Grid>
-
+            {!isSmallScreen && (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingTop: isSmallScreen ? "10px" : "0px",
+                }}
+              >
+                <Typography variant={isLargeScreen ? "subtitle1" : "h5"}>
+                  Take Your Talents To The Next Level
+                </Typography>
+              </Grid>
+            )}
             <Grid
               item
               xs={6}
@@ -89,6 +93,7 @@ const HomePage = () => {
                 variant="contained"
                 color="secondary"
                 size={isLargeScreen ? "medium" : "large"}
+                sx={{ borderRadius: "10px" }}
                 onClick={() => {
                   GlobalReference.navSearchBar.current?.focus();
                 }}
@@ -112,6 +117,7 @@ const HomePage = () => {
                   variant="contained"
                   color="secondary"
                   size={isLargeScreen ? "medium" : "large"}
+                  sx={{ borderRadius: "10px" }}
                 >
                   Recruit Finder
                 </Button>
