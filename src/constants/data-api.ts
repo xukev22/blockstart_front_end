@@ -1,2 +1,2 @@
-export const domain = "http://www.blockstart.org";
-// export const domain = "http://localhost:8080";
+// export const domain = "http://www.blockstart.org";
+export const domain = "http://localhost:8080";
