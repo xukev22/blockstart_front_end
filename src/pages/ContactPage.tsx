@@ -48,7 +48,7 @@ const ContactPage = () => {
             <Grid item>
               <Avatar
                 alt="Kevin Xu"
-                src="/images/kevprofilepic.jpeg"
+                src="/images/kevprofilepic.jpg"
                 sx={{ width: 180, height: 180 }}
               />
             </Grid>
@@ -96,7 +96,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://twitter.com/`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>
@@ -146,7 +146,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://www.linkedin.com/feed/`}
                 >
                   <LinkedInIcon
                     fontSize="large"
@@ -156,7 +156,7 @@ const ContactPage = () => {
                 <Grid item xs={1}></Grid>
                 <IconButton
                   component={Link}
-                  href={`https://www.youtube.com/watch?v=xvFZjo5PgG0`}
+                  href={`https://twitter.com/`}
                 >
                   <TwitterIcon fontSize="large"></TwitterIcon>
                 </IconButton>
