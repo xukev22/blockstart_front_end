@@ -78,7 +78,7 @@ const Marks = (props: Props) => {
 
   const clickHandlerMarksSearch = async () => {
     if (props.marksIsValid()) {
-      toast.success("data is valid", { position: toast.POSITION.BOTTOM_LEFT });
+      //toast.success("data is valid", { position: toast.POSITION.BOTTOM_LEFT });
 
       toast.warning(DISCLAIMER, {
         position: toast.POSITION.BOTTOM_LEFT,
@@ -163,17 +163,18 @@ const Marks = (props: Props) => {
     <Box sx={{ padding: "1rem" }}>
       {/* Top Label */}
       <Typography
-        variant="h4"
+        variant="h5"
         sx={{
-          borderTopLeftRadius: "15px",
-          borderTopRightRadius: "15px",
+          borderTopLeftRadius: "5px",
+          borderTopRightRadius: "5px",
           borderBottom: `3px solid ${theme.palette.secondary.main}`,
           padding: "10px",
           textAlign: "center", // Center the text horizontally,
           backgroundColor: "white", // Set the background color to white
+          // fontWeight: "500",
         }}
       >
-        Filter By Your Marks
+        Enter Marks
         {/* {Object.entries(props.userInput).map(([eventName, value]) => (
           <p key={eventName}>
             Event: {eventName}, Value: {value}
@@ -435,47 +436,60 @@ const Marks = (props: Props) => {
 
         <Box
           sx={{
-            borderBottomLeftRadius: "15px",
-            borderBottomRightRadius: "15px",
-            padding: "10px",
+            borderBottomLeftRadius: "5px",
+            borderBottomRightRadius: "5px",
+            padding: "20px",
             backgroundColor: "white", // Set the background color to white
             display: "flex",
             justifyContent: "center",
-            gap: `${2}rem`,
           }}
         >
-          <Button
-            size="small"
-            variant="contained"
-            color="success"
-            onClick={clickHandlerMarksSearch}
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
-            Search
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            color="error"
-            onClick={clearMarksFields}
-          >
-            Clear Fields
-          </Button>
-          <SearchBothButton
-            eventNamesField={props.eventNamesField}
-            criteriaIsValid={props.criteriaIsValid}
-            marksIsValid={props.marksIsValid}
-            userInput={props.userInput}
-            activeGender={props.activeGender}
-            activeConference={props.siblingInfo.activeConference}
-            activeDivision={props.siblingInfo.activeDivision}
-            activeState={props.siblingInfo.activeState}
-            hbcuOrNot={props.siblingInfo.hbcuOrNot}
-            publicPrivate={props.siblingInfo.publicPrivate}
-            changeResults={(results: Result[]) => props.changeResults(results)}
-            changeResultStatus={(status: ResultStatus) =>
-              props.changeResultStatus(status)
-            }
-          />
+            <Grid item></Grid>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              onClick={clickHandlerMarksSearch}
+              sx={{ boxShadow: "0" }}
+            >
+              Search
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={clearMarksFields}
+              sx={{ boxShadow: "0" }}
+            >
+              Clear Fields
+            </Button>
+            <SearchBothButton
+              eventNamesField={props.eventNamesField}
+              criteriaIsValid={props.criteriaIsValid}
+              marksIsValid={props.marksIsValid}
+              userInput={props.userInput}
+              activeGender={props.activeGender}
+              activeConference={props.siblingInfo.activeConference}
+              activeDivision={props.siblingInfo.activeDivision}
+              activeState={props.siblingInfo.activeState}
+              hbcuOrNot={props.siblingInfo.hbcuOrNot}
+              publicPrivate={props.siblingInfo.publicPrivate}
+              changeResults={(results: Result[]) =>
+                props.changeResults(results)
+              }
+              changeResultStatus={(status: ResultStatus) =>
+                props.changeResultStatus(status)
+              }
+            />
+            <Grid item></Grid>
+          </Grid>
         </Box>
       </Stack>
     </Box>

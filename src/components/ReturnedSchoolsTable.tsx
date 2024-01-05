@@ -31,6 +31,9 @@ import {
 import { Theme, styled } from "@mui/material/styles";
 import { Result } from "../pages/RecruitPage";
 import Legend from "./Legend";
+import theme from "../theme/theme";
+import { eventToReadableName } from "../utils/mappings";
+import { EventType } from "../model/CollegeProfileData";
 
 const style = {
   alignItems: "cetner",
@@ -49,7 +52,7 @@ interface Column {
   id: "college" | "tags" | "state" | "division";
   label: string;
   minWidth?: number;
-  align?: "right";
+  align?: "center";
   format?: (value: number) => string;
 }
 function getChipColor(tag: string) {
@@ -128,13 +131,13 @@ export default function ReturnedSchoolsTable(props: Props) {
       id: "state",
       label: "State",
       minWidth: WIDTH_NON_TAG,
-      align: "right",
+      align: "center",
     },
     {
       id: "division",
       label: "Division",
       minWidth: WIDTH_NON_TAG,
-      align: "right",
+      align: "center",
     },
   ];
 
@@ -188,7 +191,7 @@ export default function ReturnedSchoolsTable(props: Props) {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: theme.palette.secondary.main,
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -256,6 +259,8 @@ export default function ReturnedSchoolsTable(props: Props) {
                     >
                       {columns.map((column) => {
                         const value = row[column.id];
+                        console.log("YO" + value);
+
                         // Check if the current cell is the "college" column
                         if (column.id === "college") {
                           // Wrap the college name in a Link component
@@ -266,6 +271,11 @@ export default function ReturnedSchoolsTable(props: Props) {
                                   "&",
                                   "---and---"
                                 )}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: theme.palette.secondary.dark,
+                                  fontWeight: 500,
+                                }}
                               >
                                 {value}
                               </Link>
@@ -279,11 +289,15 @@ export default function ReturnedSchoolsTable(props: Props) {
                                 <Typography>None</Typography>
                               ) : (
                                 <Grid container spacing={1}>
-                                  {value.split(",").map((tag) => (
+                                  {value.split(", ").map((tag) => (
                                     <Grid item>
                                       <Chip
                                         key={tag}
-                                        label={tag.split(":")[0]}
+                                        label={
+                                          eventToReadableName[
+                                            tag.split(":")[0] as EventType
+                                          ]
+                                        }
                                         style={{
                                           backgroundColor: getChipColor(tag),
                                           color: "#ffffff",
@@ -293,6 +307,14 @@ export default function ReturnedSchoolsTable(props: Props) {
                                   ))}
                                 </Grid>
                               )}
+                            </TableCell>
+                          );
+                        } else if (column.id === "division") {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : "Division " + value}
                             </TableCell>
                           );
                         } else {
@@ -319,7 +341,7 @@ export default function ReturnedSchoolsTable(props: Props) {
           justifyContent: "space-between",
         }}
       >
-        <Button color="secondary" onClick={handleOpen}>
+        <Button color="info" onClick={handleOpen}>
           Show Tags Legend
         </Button>
         <Modal

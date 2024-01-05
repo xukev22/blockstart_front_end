@@ -7,6 +7,7 @@ import {
   TextField,
   useTheme,
   ButtonGroup,
+  useMediaQuery,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,6 +42,8 @@ interface Props {
 
 const Criteria = (props: Props) => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMedScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [collegeConferences, setCollegeConferences] = useState<string[]>([]);
   const [collegeStates, setCollegeStates] = useState<string[]>([]);
@@ -180,17 +183,17 @@ const Criteria = (props: Props) => {
     <Box sx={{ padding: "1rem" }}>
       {/* Top Label */}
       <Typography
-        variant="h4"
+        variant="h5"
         sx={{
-          borderTopLeftRadius: "15px",
-          borderTopRightRadius: "15px",
+          borderTopLeftRadius: "5px",
+          borderTopRightRadius: "5px",
           borderBottom: `3px solid ${blue}`,
           padding: "10px",
           textAlign: "center", // Center the text horizontally,
           backgroundColor: "white", // Set the background color to white
         }}
       >
-        Filter By Criteria
+        Enter Criteria
       </Typography>
 
       <Box
@@ -200,7 +203,7 @@ const Criteria = (props: Props) => {
           backgroundColor: "white",
         }}
       >
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <ButtonGroup variant="outlined">
               <Button
@@ -212,6 +215,7 @@ const Criteria = (props: Props) => {
                     props.changeDivision("I");
                   }
                 }}
+                size={isSmallScreen ? "small" : "small"}
               >
                 Division I
               </Button>
@@ -268,6 +272,7 @@ const Criteria = (props: Props) => {
             />
           </Grid>
           <Grid item xs={1}></Grid>
+
           <Grid item xs={1}></Grid>
           <Grid item xs={10}>
             <Autocomplete
@@ -296,7 +301,8 @@ const Criteria = (props: Props) => {
           </Grid>
           <Grid item xs={1}></Grid>
 
-          <Grid item xs>
+          <Grid item xs={0.75}></Grid>
+          <Grid item xs={5}>
             <ButtonGroup variant="outlined">
               <Button
                 color={
@@ -309,6 +315,7 @@ const Criteria = (props: Props) => {
                     props.changePublicPrivate("PUBLIC");
                   }
                 }}
+                size="small"
               >
                 Public
               </Button>
@@ -323,12 +330,14 @@ const Criteria = (props: Props) => {
                     props.changePublicPrivate("PRIVATE");
                   }
                 }}
+                size="small"
               >
                 Private
               </Button>
             </ButtonGroup>
           </Grid>
-          <Grid item xs>
+
+          <Grid item xs={6}>
             <ButtonGroup variant="outlined">
               <Button
                 color={props.hbcuOrNot === "YES" ? "secondary" : "inherit"}
@@ -339,6 +348,7 @@ const Criteria = (props: Props) => {
                     props.changeHbcuOrNot("YES");
                   }
                 }}
+                size="small"
               >
                 HBCU
               </Button>
@@ -351,6 +361,7 @@ const Criteria = (props: Props) => {
                     props.changeHbcuOrNot("NO");
                   }
                 }}
+                size="small"
               >
                 Not HBCU
               </Button>
@@ -361,47 +372,58 @@ const Criteria = (props: Props) => {
 
       <Box
         sx={{
-          borderBottomLeftRadius: "15px",
-          borderBottomRightRadius: "15px",
+          borderBottomLeftRadius: "5px",
+          borderBottomRightRadius: "5px",
           padding: "10px",
           backgroundColor: "white", // Set the background color to white
           display: "flex",
           justifyContent: "center",
-          gap: `${2}rem`,
         }}
       >
-        <Button
-          variant="contained"
-          color="success"
-          onClick={clickHandlerCriteriaSearch}
-          size="small"
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
-          Search
-        </Button>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={clearCriteriaFields}
-          size="small"
-        >
-          Clear Criteria
-        </Button>
-        <SearchBothButton
-          eventNamesField={props.eventNamesField}
-          criteriaIsValid={props.criteriaIsValid}
-          marksIsValid={props.marksIsValid}
-          activeGender={props.siblingInfo.activeGender}
-          userInput={props.siblingInfo.userInput}
-          activeConference={props.activeConference}
-          activeDivision={props.activeDivision}
-          activeState={props.activeState}
-          publicPrivate={props.publicPrivate}
-          hbcuOrNot={props.hbcuOrNot}
-          changeResults={(results: Result[]) => props.changeResults(results)}
-          changeResultStatus={(status: ResultStatus) =>
-            props.changeResultStatus(status)
-          }
-        />
+          <Grid item></Grid>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={clickHandlerCriteriaSearch}
+            size="small"
+            sx={{ boxShadow: "0" }}
+          >
+            Search
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={clearCriteriaFields}
+            size="small"
+            sx={{ boxShadow: "0" }}
+          >
+            Clear Criteria
+          </Button>
+          <SearchBothButton
+            eventNamesField={props.eventNamesField}
+            criteriaIsValid={props.criteriaIsValid}
+            marksIsValid={props.marksIsValid}
+            activeGender={props.siblingInfo.activeGender}
+            userInput={props.siblingInfo.userInput}
+            activeConference={props.activeConference}
+            activeDivision={props.activeDivision}
+            activeState={props.activeState}
+            publicPrivate={props.publicPrivate}
+            hbcuOrNot={props.hbcuOrNot}
+            changeResults={(results: Result[]) => props.changeResults(results)}
+            changeResultStatus={(status: ResultStatus) =>
+              props.changeResultStatus(status)
+            }
+          />
+          <Grid item></Grid>
+        </Grid>
       </Box>
     </Box>
   );

@@ -145,6 +145,7 @@ const SearchBothButton = (props: Props) => {
       variant="contained"
       color="info"
       onClick={clickHandlerBothSearch}
+      sx={{ boxShadow: "0" }}
     >
       Search Both
     </Button>
