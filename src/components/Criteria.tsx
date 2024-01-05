@@ -43,7 +43,6 @@ interface Props {
 const Criteria = (props: Props) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMedScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [collegeConferences, setCollegeConferences] = useState<string[]>([]);
   const [collegeStates, setCollegeStates] = useState<string[]>([]);
