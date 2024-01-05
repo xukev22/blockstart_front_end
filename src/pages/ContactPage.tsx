@@ -257,7 +257,7 @@ const ContactPage = () => {
               <Typography sx={{ paddingLeft: "10px" }}>
                 If you meet the hard recruit standard this means your marks are
                 likely strong enough to get recruited to the school and get a
-                sizable scholarship.
+                sizable scholarship
               </Typography>
             </Grid>
           </Grid>
