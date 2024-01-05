@@ -6,7 +6,9 @@ const theme = createTheme({
       main: "#FFFFFA", // White
     },
     secondary: {
-      main: "#2F78E6", // Powder blue
+      main: "#448BF6", // Powder blue
+      light:"#5697F9",
+      dark: "#1C7BF6"
     },
     error: {
       main: "#FF686B", // Light red
@@ -15,13 +17,16 @@ const theme = createTheme({
       main: "#ECDCB0", // Dutch white
     },
     info: {
-      main: "#5D5D81", // Tropical Indigo
+      main: "#656CFA", // Tropical Indigo
     },
     success: {
       main: "#8CC084", // Pistachio
     },
+
   },
   // Add more theme customization options as needed
+  
+  
 });
 
 export default theme;

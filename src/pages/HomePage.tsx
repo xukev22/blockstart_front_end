@@ -14,7 +14,7 @@ const HomePage = () => {
         container
         sx={{
           background: theme.palette.secondary.main,
-          backgroundImage: "url(/images/haywardfield_smaller.png)",
+          backgroundImage: "url(/images/haywardfield_smaller2.png)",
 
           backgroundSize: "cover",
           height: "800px",

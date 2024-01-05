@@ -119,17 +119,17 @@ const MainNavigation = () => {
         {/* Smaller width navbar for small screens */}
         <AppBar sx={{ background: primaryColor }}>
           <Grid columns={12} container>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <Link to="/">
                 <Image
-                  src="/images/blockstartLogoNew.png"
+                  src="/images/blockstartIconSquare.png"
                   duration={0}
-                  fit="cover"
-                  style={{ height: 30 }}
+                  fit="contain"
+                  style={{ height: 50 }}
                 />
               </Link>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7}>
               {/* Modify the size of the search bar */}
               <Box sx={{ margin: "0.5rem" }}>
                 <Paper

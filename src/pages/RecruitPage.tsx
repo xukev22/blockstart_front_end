@@ -198,12 +198,12 @@ const RecruitPage = () => {
     // box for anti-horizontal scroll
     <Box>
       <Grid container sx={{ paddingTop: "40px" }}>
-        <Grid item xs={0} sm={0} md={0.5}></Grid>
-        <Grid item xs={12} sm={12} md={7.5}>
+        <Grid item xs={0} sm={0} lg={0.5}></Grid>
+        <Grid item xs={12} sm={12} md={7} lg={7.5}>
           <SearchResults results={results} resultStatus={resultStatus} />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={3.5}>
+        <Grid item xs={12} sm={12} md={5} lg={3.5}>
           <Stack
             direction="column"
             divider={<Divider orientation="horizontal" flexItem />}
